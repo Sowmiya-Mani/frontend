@@ -3,6 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import Home from "./routes/Home";
 import Login from "./routes/Login";
 import Register from "./routes/Register";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
   return (
