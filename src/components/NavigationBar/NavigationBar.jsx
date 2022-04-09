@@ -1,13 +1,13 @@
 import React from "react";
 import { Navbar, Container, Nav } from "react-bootstrap";
 
-import "./NavigationBar.scss";
+import styles from "./NavigationBar.module.scss";
 
 function NavigationBar() {
   return (
     <div>
-      <Navbar bg="light">
-        <Container className="navbar-container">
+      <Navbar className={styles.navbar}>
+        <Container className={styles["navbar-container"]}>
           <Navbar.Brand href="/">Auction System</Navbar.Brand>
           <Nav>
             <Nav.Link href="/login">Login</Nav.Link>

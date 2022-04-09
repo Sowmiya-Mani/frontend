@@ -1,0 +1,19 @@
+@import "./../../../styles/_colors.scss";
+
+.wrapper {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.header {
+  color: $primary;
+}
+
+.paragraph {
+  margin-left: 20vw;
+  margin-right: 20vw;
+}
