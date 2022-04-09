@@ -1,10 +1,11 @@
 import React from "react";
-import { Button } from "react-bootstrap";
+import NavigationBar from "../../components/NavigationBar/NavigationBar";
+import "./Home.scss";
 
 function Home() {
   return (
     <div>
-      <Button>Click on this </Button>
+      <NavigationBar />
     </div>
   );
 }
