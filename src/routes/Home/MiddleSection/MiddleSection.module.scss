@@ -11,14 +11,21 @@
 
 .header {
   color: $primary;
+  margin-top: 20vh;
 }
 
 .waves {
   position: absolute;
-  top: 100vh;
+  top: 86vh;
 }
 
 .paragraph {
   margin-left: 20vw;
   margin-right: 20vw;
+}
+
+@media (max-width: 991px) {
+  .header {
+    margin-top: 0px;
+  }
 }
