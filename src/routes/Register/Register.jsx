@@ -11,6 +11,7 @@ import styles from "./Register.module.scss";
 
 function Register() {
   const [isShownPassword, setIsShownPassword] = useState(false);
+
   return (
     <div>
       <NavigationBar />
