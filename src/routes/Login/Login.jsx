@@ -28,7 +28,6 @@ function Login() {
   const onSubmit = (e) => {
     e.preventDefault();
     setIsLoading(true);
-    console.log("Pressed submit");
 
     usersService
       .login(formData)
