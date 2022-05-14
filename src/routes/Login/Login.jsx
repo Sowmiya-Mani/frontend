@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import NavigationBar from "../../components/NavigationBar";
 import { Container, Form, Button, Spinner, Toast } from "react-bootstrap";
-
+import useLocalStorage from "../../hooks/useLocalStorage";
 import usersService from "../../services/users";
 import styles from "./Login.module.scss";
 
@@ -11,6 +11,8 @@ function Login() {
   const navigate = useNavigate();
   const [errors, setErrors] = useState([]);
   const [showErr, setShowErr] = useState(false);
+
+  useLocalStorage();
 
   const handleClose = () => {
     setShowErr(false);
@@ -32,7 +34,7 @@ function Login() {
     usersService
       .login(formData)
       .then((response) => {
-        console.log(response);
+        localStorage.setItem("token", response.data.token);
         setIsLoading(false);
         navigate("/");
       })
