@@ -31,7 +31,8 @@ function Login() {
 
     usersService
       .login(formData)
-      .then(() => {
+      .then((response) => {
+        console.log(response);
         setIsLoading(false);
         navigate("/");
       })
