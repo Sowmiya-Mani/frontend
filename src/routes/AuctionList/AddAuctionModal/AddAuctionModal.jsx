@@ -8,9 +8,32 @@ function AddAuctionModal({ showModal, closeHandler }) {
   return (
     <Modal show={showModal} onHide={closeHandler}>
       <Modal.Header closeButton>
-        <Modal.Title>Start your own auction</Modal.Title>
+        <Modal.Title className={styles["modal-title"]}>
+          Start your own auction
+        </Modal.Title>
       </Modal.Header>
-      <Modal.Body>Woohoo, youre reading this text in a modal!</Modal.Body>
+      <Modal.Body>
+        <form className={styles["auction-form"]}>
+          <input
+            className={styles.input}
+            type="text"
+            name="item_name"
+            placeholder="Item name"
+          />
+          <textarea
+            className={styles["description-input"]}
+            type="text"
+            name="item_description"
+            placeholder="Item desc"
+          />
+          <input
+            className={styles.input}
+            type="text"
+            name="initial_price"
+            placeholder="Starting price"
+          />
+        </form>
+      </Modal.Body>
       <Modal.Footer className={styles.footer}>
         <Button value="Close" color="slateblue" onClick={closeHandler} />
         <Button value="Save changes" onClick={closeHandler} />

@@ -1,3 +1,33 @@
 .footer {
   display: flex;
 }
+
+.auction-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.input {
+  padding: 10px;
+  border: 2px solid black;
+  border-radius: 4px;
+  margin-top: 5px;
+
+  &:focus:active {
+    border: 2px solid var(--primary) !important;
+  }
+
+  &:focus-visible {
+    border: 2px solid var(--primary) !important;
+    outline: none !important;
+  }
+}
+
+.description-input {
+  @extend .input;
+  height: 120px;
+}
+
+.modal-title {
+  color: var(--primary);
+}
