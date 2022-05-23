@@ -5,6 +5,29 @@ import Button from "../../../components/Button";
 import styles from "./AddAuctionModal.module.scss";
 
 function AddAuctionModal({ showModal, closeHandler }) {
+  const formatMinDate = () => {
+    let date = new Date();
+    date.setMinutes(date.getMinutes() + 30);
+    const arr = date.toString().split(" ");
+
+    let month = date.getMonth() + 1;
+    if (month.toString().length === 1) {
+      month = "0" + month.toString();
+    }
+
+    let hour = date.getHours();
+    if (hour.toString().length === 1) {
+      hour = "0" + hour.toString();
+    }
+
+    let minutes = date.getMinutes();
+    if (minutes.toString().length === 1) {
+      minutes = "0" + minutes.toString();
+    }
+
+    return arr[3] + "-" + month + "-" + arr[2] + "T" + hour + ":" + minutes;
+  };
+
   return (
     <Modal show={showModal} onHide={closeHandler}>
       <Modal.Header closeButton>
@@ -32,6 +55,12 @@ function AddAuctionModal({ showModal, closeHandler }) {
             name="initial_price"
             placeholder="Starting price"
           />
+          <input
+            className={styles.input}
+            type="datetime-local"
+            value={formatMinDate()}
+            min={formatMinDate()}
+          ></input>
         </form>
       </Modal.Body>
       <Modal.Footer className={styles.footer}>
