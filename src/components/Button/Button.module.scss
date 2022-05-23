@@ -1,0 +1,11 @@
+.custom-button {
+  padding: 5px;
+  margin: 5px;
+  border: none;
+  border-radius: 4px;
+  color: white;
+
+  &:hover {
+    background-color: var(--primary-hover) !important;
+  }
+}

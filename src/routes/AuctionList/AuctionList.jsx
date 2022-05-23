@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import auctionsService from "../../services/auctions";
 import NavigationBar from "../../components/NavigationBar/NavigationBar";
 import Auction from "./Auction/Auction";
-import { Button } from "react-bootstrap";
+import Button from "../../components/Button";
 import styles from "./AuctionList.module.scss";
 
 function AuctionList() {
@@ -49,12 +49,10 @@ function AuctionList() {
 
       {!exhausted ? (
         <div className={styles.button}>
-          <Button onClick={loadMore} variant="primary">
-            Load more
-          </Button>
+          <Button onClick={loadMore} value="Load more..." />
         </div>
       ) : (
-        <div>Thats it for now</div>
+        <div className={styles.message}>Thats it for now</div>
       )}
     </div>
   );

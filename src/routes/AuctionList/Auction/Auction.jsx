@@ -1,9 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
+import Button from "../../../components/Button";
 import styles from "./Auction.module.scss";
 
 function Auction({ auction }) {
+  const [bid, setBid] = useState(0);
   const { item_name, item_description, bids, initial_price } = auction;
+
+  const onChange = (e) => {
+    e.preventDefault();
+    setBid(e.target.value);
+  };
+
+  const onClick = (e) => {
+    e.preventDefault();
+    console.log(bid);
+  };
 
   return (
     <div className={styles.wrapper}>
@@ -38,9 +50,11 @@ function Auction({ auction }) {
               <strong> Place your own bid: </strong>
             </p>
             <input
+              onChange={onChange}
               type="text"
               placeholder="Enter a larger bid than the current price"
             />
+            <Button value="Place bid" onClick={onClick} />
           </div>
         </div>
       </div>
