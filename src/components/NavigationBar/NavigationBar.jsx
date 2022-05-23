@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Navbar, Container, Nav } from "react-bootstrap";
 
@@ -12,10 +12,6 @@ function NavigationBar() {
     setIsLoggedIn(false);
     localStorage.removeItem("token");
   };
-
-  useEffect(() => {
-    console.log(isLoggedIn);
-  }, [isLoggedIn]);
 
   return (
     <div>
