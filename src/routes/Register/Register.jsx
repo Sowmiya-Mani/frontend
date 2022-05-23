@@ -47,7 +47,7 @@ function Register() {
         navigate("/");
       })
       .catch((err) => {
-        setErrors([...errors, err.response.data.error]);
+        setErrors([err.response.data.error]);
         setIsLoading(false);
         setShowErr(true);
       });

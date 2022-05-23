@@ -40,7 +40,7 @@ function Login() {
       })
       .catch((err) => {
         console.log(err.response.data);
-        setErrors([...errors, err.response.data.error]);
+        setErrors([err.response.data.error]);
         setIsLoading(false);
         setShowErr(true);
       });
