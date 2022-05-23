@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import NavigationBar from "../../components/NavigationBar";
+import Button from "../../components/Button";
 import {
   Container,
   Form,
-  Button,
   InputGroup,
   FormControl,
   Toast,
-  Spinner,
+  Button as BootstrapButton,
 } from "react-bootstrap";
 import usersService from "../../services/users";
 import styles from "./Register.module.scss";
@@ -127,24 +127,25 @@ function Register() {
               type={isShownPassword ? "text" : "password"}
               placeholder="Enter password"
             />
-            <Button
+            <BootstrapButton
               className={styles["show-password-button"]}
               onClick={() => setIsShownPassword(!isShownPassword)}
               variant="outline-secondary"
               id="button-addon1"
             >
               {isShownPassword ? "Hide" : "Show"}
-            </Button>
+            </BootstrapButton>
           </InputGroup>
 
-          <Button
-            className={styles.button}
-            disabled={isLoading}
-            variant="primary"
-            type="submit"
-          >
-            Sign up {isLoading && <Spinner animation="border" size="sm" />}
-          </Button>
+          <div className={styles["button-container"]}>
+            <Button
+              disabled={isLoading}
+              loading={isLoading}
+              value="Sign up"
+              type="submit"
+              onClick={onSubmit}
+            />
+          </div>
         </Form>
       </Container>
     </div>

@@ -8,4 +8,8 @@
   &:hover {
     background-color: var(--primary-hover) !important;
   }
+
+  &:disabled {
+    background-color: var(--gray) !important;
+  }
 }

@@ -1,10 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { Spinner } from "react-bootstrap";
 import styles from "./Button.module.scss";
 
-function Button({ onClick, value, disabled, color }) {
+function Button({ onClick, value, disabled, color, loading, type }) {
   return (
     <button
+      type={type}
       style={{
         backgroundColor: color === "primary" ? "var(--primary)" : color,
       }}
@@ -12,12 +14,13 @@ function Button({ onClick, value, disabled, color }) {
       disabled={disabled}
       onClick={onClick}
     >
-      {value}
+      {value} {loading && <Spinner animation="border" size="sm" />}
     </button>
   );
 }
 
 Button.defaultProps = {
+  loading: false,
   value: "",
   disabled: false,
   color: "primary",
@@ -28,6 +31,8 @@ Button.propTypes = {
   value: PropTypes.string,
   disabled: PropTypes.bool,
   color: PropTypes.string,
+  loading: PropTypes.bool,
+  type: PropTypes.string,
 };
 
 export default Button;

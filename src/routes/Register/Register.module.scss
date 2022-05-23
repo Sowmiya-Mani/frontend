@@ -14,11 +14,13 @@
   margin-bottom: 100px;
 }
 
-.button {
-  width: 150px;
-  text-align: center;
+.button-container {
   margin-left: auto;
   margin-right: auto;
+  display: flex;
+  width: 100px;
+  align-items: center;
+  justify-content: center;
 }
 
 .show-password-button {

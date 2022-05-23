@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import NavigationBar from "../../components/NavigationBar";
-import { Container, Form, Button, Spinner, Toast } from "react-bootstrap";
+import Button from "../../components/Button";
+import { Container, Form, Toast } from "react-bootstrap";
 import useLocalStorage from "../../hooks/useLocalStorage";
 import usersService from "../../services/users";
 import styles from "./Login.module.scss";
@@ -90,14 +91,16 @@ function Login() {
             />
           </Form.Group>
 
-          <Button
-            disabled={isLoading}
-            className={styles.button}
-            variant="primary"
-            type="submit"
-          >
-            Login {isLoading && <Spinner animation="border" size="sm" />}
-          </Button>
+          <div className={styles["button-container"]}>
+            <Button
+              disabled={isLoading}
+              loading={isLoading}
+              onClick={onSubmit}
+              variant="primary"
+              type="submit"
+              value="Login"
+            />
+          </div>
         </Form>
       </Container>
     </div>
