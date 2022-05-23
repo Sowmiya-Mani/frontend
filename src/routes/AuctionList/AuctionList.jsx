@@ -2,7 +2,9 @@ import React, { useEffect, useState } from "react";
 import auctionsService from "../../services/auctions";
 import NavigationBar from "../../components/NavigationBar/NavigationBar";
 import Auction from "./Auction/Auction";
+import useIsLoggedIn from "../../hooks/useIsLoggedIn";
 import Button from "../../components/Button";
+import AddAuctionModal from "./AddAuctionModal/AddAuctionModal";
 import styles from "./AuctionList.module.scss";
 
 function AuctionList() {
@@ -10,11 +12,21 @@ function AuctionList() {
   const [auctions, setAuctions] = useState([]);
   const [page, setPage] = useState(1);
   const [exhausted, setExhausted] = useState(false);
+  const [showAddAuctionModal, setShowAddAuctionModal] = useState(false);
+  const isLoggedIn = useIsLoggedIn();
 
   //   const [search, setSearch] = useState("");
 
   const loadMore = () => {
     setPage((prevPage) => prevPage + 1);
+  };
+
+  const closeModal = () => {
+    setShowAddAuctionModal(false);
+  };
+
+  const toggleAddModal = () => {
+    setShowAddAuctionModal((prev) => !prev);
   };
 
   useEffect(() => {
@@ -38,7 +50,18 @@ function AuctionList() {
 
   return (
     <div className={styles["list-wrapper"]}>
+      <AddAuctionModal
+        closeHandler={closeModal}
+        showModal={showAddAuctionModal}
+      />
+
       <NavigationBar />
+      {isLoggedIn && (
+        <div className={styles["start-auction-btn"]}>
+          <Button value="Start an auction" onClick={toggleAddModal} />
+        </div>
+      )}
+
       {auctions.length > 0 ? (
         auctions.map((auction, index) => (
           <Auction key={index} auction={auction} />
