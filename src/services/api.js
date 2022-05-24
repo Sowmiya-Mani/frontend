@@ -1,6 +1,9 @@
 import axios from "axios";
 
-const accessToken = "";
+// const accessToken = "";
+
+const getAccessToken = () =>
+  localStorage.getItem("token") !== null ? localStorage.getItem("token") : "";
 
 const Api = {
   service: axios.create({
@@ -18,7 +21,7 @@ const Api = {
       .get(endpoint, {
         params,
         headers: {
-          Authorization: `Bearer ${accessToken}`,
+          Authorization: `${getAccessToken()}`,
         },
       })
       .then((response) => response);
@@ -29,7 +32,7 @@ const Api = {
       .post(endpoint, payload, {
         params,
         headers: {
-          Authorization: `Bearer ${accessToken}`,
+          Authorization: `${getAccessToken()}`,
         },
       })
       .then((response) => response);
@@ -40,7 +43,7 @@ const Api = {
       .patch(endpoint, payload, {
         params,
         headers: {
-          Authorization: `Bearer ${accessToken}`,
+          Authorization: `${getAccessToken()}`,
         },
       })
       .then((response) => response);
@@ -51,7 +54,7 @@ const Api = {
       .put(endpoint, payload, {
         params,
         headers: {
-          Authorization: `Bearer ${accessToken}`,
+          Authorization: `${getAccessToken()}`,
         },
       })
       .then((response) => response);
@@ -62,7 +65,7 @@ const Api = {
       .delete(endpoint, {
         params,
         headers: {
-          Authorization: `Bearer ${accessToken}`,
+          Authorization: `${getAccessToken()}`,
         },
       })
       .then((response) => response);
