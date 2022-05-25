@@ -10,4 +10,7 @@ export default {
   login(payload) {
     return Api.post(`${baseURL}/login`, payload).then((json) => json);
   },
+  getUserById(payload) {
+    return Api.get(`${baseURL}/users/` + payload.id).then((json) => json);
+  },
 };

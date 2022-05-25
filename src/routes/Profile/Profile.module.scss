@@ -1,0 +1,85 @@
+.upper-div {
+  margin-left: 100px;
+  height: 40vh;
+  display: flex;
+}
+
+.horizontal-line {
+  width: 80%;
+  color: gray;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.profile-pic {
+  border: 1px solid gray;
+  border-radius: 50%;
+  margin: 10px 10px 10px 100px;
+  //   background: url("https://image.shutterstock.com/image-photo/attractive-african-young-confident-businesswoman-260nw-1712082700.jpg");
+  background-position: center;
+  background-size: cover;
+  aspect-ratio: 1/1;
+  width: 200px;
+  height: 200px;
+}
+
+.user-info {
+  margin: 10px;
+  display: flex;
+  flex-direction: column;
+  width: fit-content;
+}
+
+.first-row {
+  display: flex;
+  height: 50px;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.username {
+  font-size: 30px;
+}
+
+.numbers {
+  display: flex;
+}
+
+.name {
+  margin-left: 10px;
+}
+
+.bio {
+  max-height: 100px;
+  margin-left: 10px;
+  max-width: 300px;
+  overflow: scroll;
+  overflow-x: hidden;
+}
+
+.spinner {
+  display: flex;
+  justify-content: center;
+}
+
+@media (max-width: 900px) {
+  .upper-div {
+    margin-left: 10px;
+  }
+}
+
+@media (max-width: 500px) {
+  .profile-pic {
+    margin: 40px 10px 10px 20px;
+    width: 70px;
+    height: 70px;
+  }
+
+  .upper-div {
+    margin-left: 0px;
+  }
+
+  .horizontal-line {
+    width: 100%;
+  }
+}

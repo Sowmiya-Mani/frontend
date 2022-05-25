@@ -4,6 +4,7 @@ import Home from "./routes/Home";
 import Login from "./routes/Login";
 import Register from "./routes/Register";
 import AuctionList from "./routes/AuctionList";
+import Profile from "./routes/Profile";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
@@ -13,6 +14,7 @@ function App() {
       <Route path="/auctions" exact element={<AuctionList />} />
       <Route path="/login" exact element={<Login />} />
       <Route path="/register" exact element={<Register />} />
+      <Route path="/users/:id" exact element={<Profile />} />
     </Routes>
   );
 }

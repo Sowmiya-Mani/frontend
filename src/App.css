@@ -1,0 +1,20 @@
+:root {
+  --primary: rgb(147, 69, 147);
+  --primary-hover: rgb(171, 81, 171);
+  --gray: rgb(141, 141, 141);
+}
+
+::-webkit-scrollbar {
+  height: 0.5rem;
+  width: 0.5rem;
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: gray;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(106, 106, 106);
+}
