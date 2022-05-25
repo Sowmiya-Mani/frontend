@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import Button from "../../../components/Button";
 import bidsService from "../../../services/bids";
@@ -6,8 +6,38 @@ import styles from "./Auction.module.scss";
 
 function Auction({ auction }) {
   const [bid, setBid] = useState(0);
+  const [remainingTime, setRemainingTime] = useState(0);
   console.log(auction);
-  const { _id, item_name, item_description, bids, initial_price } = auction;
+  const { _id, item_name, item_description, bids, initial_price, date_ends } =
+    auction;
+
+  useEffect(() => {
+    calculateRemainingTime();
+  }, []);
+
+  const calculateRemainingTime = () => {
+    let timeLeft = new Date(date_ends).getTime() - new Date().getTime();
+
+    var days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+    var hours = Math.floor(
+      (timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+    );
+    var minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+    var seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+    setRemainingTime(
+      days.toString() +
+        " days, " +
+        hours.toString() +
+        " hours, " +
+        minutes.toString() +
+        " minutes, " +
+        seconds.toString() +
+        " seconds"
+    );
+  };
+
+  setInterval(calculateRemainingTime, 1000);
 
   const onChange = (e) => {
     e.preventDefault();
@@ -50,7 +80,7 @@ function Auction({ auction }) {
             <strong>Number of bids:</strong> {bids.length}
           </p>
           <p>
-            <strong>Time remaining:</strong> {bids.length}
+            <strong>Time remaining:</strong> {remainingTime}
           </p>
           <p>
             <strong>Current price:</strong>{" "}
