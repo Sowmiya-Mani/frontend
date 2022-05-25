@@ -7,4 +7,10 @@ export default {
   getAuctions(payload) {
     return Api.get(`${baseURL}/auctions`, payload).then((json) => json);
   },
+  getActiveAuctions(payload) {
+    return Api.get(`${baseURL}/active-auctions`, payload).then((json) => json);
+  },
+  postAuction(payload) {
+    return Api.post(`${baseURL}/auctions`, payload).then((json) => json);
+  },
 };

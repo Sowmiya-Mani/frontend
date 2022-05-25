@@ -29,9 +29,21 @@ function AuctionList() {
     setShowAddAuctionModal((prev) => !prev);
   };
 
+  const addNewAuction = (payload) => {
+    auctionsService
+      .postAuction(payload)
+      .then((res) => {
+        console.log(res);
+        closeModal();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   useEffect(() => {
     auctionsService
-      .getAuctions({
+      .getActiveAuctions({
         search: "",
         skip: (page - 1) * PAGE_SIZE,
         limit: PAGE_SIZE,
@@ -53,6 +65,7 @@ function AuctionList() {
       <AddAuctionModal
         closeHandler={closeModal}
         showModal={showAddAuctionModal}
+        addAuctionHandler={addNewAuction}
       />
 
       <NavigationBar />

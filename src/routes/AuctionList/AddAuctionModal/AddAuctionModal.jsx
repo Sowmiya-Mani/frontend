@@ -1,10 +1,28 @@
-import React from "react";
+import React, { useState } from "react";
 import { Modal } from "react-bootstrap";
 import PropTypes from "prop-types";
 import Button from "../../../components/Button";
+import { Form } from "react-bootstrap";
 import styles from "./AddAuctionModal.module.scss";
 
-function AddAuctionModal({ showModal, closeHandler }) {
+function AddAuctionModal({ showModal, closeHandler, addAuctionHandler }) {
+  const [formData, setFormData] = useState({});
+
+  const onClose = () => {
+    setFormData({});
+    closeHandler();
+  };
+
+  const onSubmit = () => {
+    addAuctionHandler(formData);
+  };
+
+  const onChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  console.log(formData);
+
   const formatMinDate = () => {
     let date = new Date();
     date.setMinutes(date.getMinutes() + 30);
@@ -36,20 +54,23 @@ function AddAuctionModal({ showModal, closeHandler }) {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <form className={styles["auction-form"]}>
+        <Form onSubmit={onSubmit} className={styles["auction-form"]}>
           <input
+            onChange={onChange}
             className={styles.input}
             type="text"
             name="item_name"
             placeholder="Item name"
           />
           <textarea
+            onChange={onChange}
             className={styles["description-input"]}
             type="text"
             name="item_description"
             placeholder="Item desc"
           />
           <input
+            onChange={onChange}
             className={styles.input}
             type="text"
             name="initial_price"
@@ -58,14 +79,16 @@ function AddAuctionModal({ showModal, closeHandler }) {
           <input
             className={styles.input}
             type="datetime-local"
-            value={formatMinDate()}
+            name="date_ends"
+            onChange={onChange}
+            value={formData["date_ends"]}
             min={formatMinDate()}
           ></input>
-        </form>
+        </Form>
       </Modal.Body>
       <Modal.Footer className={styles.footer}>
-        <Button value="Close" color="slateblue" onClick={closeHandler} />
-        <Button value="Save changes" onClick={closeHandler} />
+        <Button value="Close" color="slateblue" onClick={onClose} />
+        <Button value="Save changes" onClick={onSubmit} />
       </Modal.Footer>
     </Modal>
   );
@@ -74,6 +97,7 @@ function AddAuctionModal({ showModal, closeHandler }) {
 AddAuctionModal.propTypes = {
   closeHandler: PropTypes.func.isRequired,
   showModal: PropTypes.bool.isRequired,
+  addAuctionHandler: PropTypes.func.isRequired,
 };
 
 export default AddAuctionModal;
