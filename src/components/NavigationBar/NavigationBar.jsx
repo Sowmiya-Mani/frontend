@@ -56,7 +56,6 @@ function NavigationBar() {
                 <Dropdown.Item href="#/action-2" onClick={goToProfile}>
                   My profile
                 </Dropdown.Item>
-                <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
               </DropdownButton>
             ) : (
               <>
