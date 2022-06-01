@@ -6,11 +6,15 @@ import usersService from "../../services/users";
 import ProfileNumber from "./ProfileNumber";
 import { Spinner } from "react-bootstrap";
 import "./../../App.css";
+import useIsLoggedIn from "../../hooks/useIsLoggedIn";
+import jwt_decode from "jwt-decode";
 import styles from "./Profile.module.scss";
 
 function Profile() {
   const navigate = useNavigate();
   const { id } = useParams();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isOwnProfile, setIsOwnProfile] = useState(false);
   const [isFetching, setIsFetching] = useState(true);
   const [data, setData] = useState({
     username: "",
@@ -19,6 +23,16 @@ function Profile() {
   });
 
   useEffect(() => {
+    if (useIsLoggedIn()) {
+      setIsLoggedIn(true);
+
+      const decoded_token = jwt_decode(localStorage.getItem("token"));
+      console.log(decoded_token);
+      if (decoded_token.uid === id) {
+        setIsOwnProfile(true);
+      }
+    }
+
     usersService
       .getUserById({ id })
       .then((res) => {
@@ -49,9 +63,11 @@ function Profile() {
           <div className={styles["user-info"]}>
             <div className={styles["first-row"]}>
               <div className={styles.username}>{data.username}</div>
-              <div>
-                <Button onClick={() => navigate("/")} value="Edit profile" />
-              </div>
+              {isLoggedIn && isOwnProfile && (
+                <div>
+                  <Button onClick={() => navigate("/")} value="Edit profile" />
+                </div>
+              )}
             </div>
             <div className={styles.numbers}>
               <ProfileNumber category="auctions" number={10} />
