@@ -11,6 +11,7 @@ function NavigationBar() {
   const logout = () => {
     setIsLoggedIn(false);
     localStorage.removeItem("token");
+    window.location.reload();
   };
 
   return (
