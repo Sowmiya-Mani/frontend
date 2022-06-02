@@ -50,12 +50,8 @@ function NavigationBar() {
                 id="dropdown-basic-button"
                 title={`${userData.first_name} ${userData.last_name}`}
               >
-                <Dropdown.Item href="#/action-1" onClick={logout}>
-                  Logout
-                </Dropdown.Item>
-                <Dropdown.Item href="#/action-2" onClick={goToProfile}>
-                  My profile
-                </Dropdown.Item>
+                <Dropdown.Item onClick={goToProfile}>My profile</Dropdown.Item>
+                <Dropdown.Item onClick={logout}>Logout</Dropdown.Item>
               </DropdownButton>
             ) : (
               <>

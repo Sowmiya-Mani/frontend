@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Button from "../../components/Button";
 import NavigationBar from "../../components/NavigationBar";
 import usersService from "../../services/users";
 import ProfileNumber from "./ProfileNumber";
+import EditProfileModal from "./EditProfileModal";
 import { Spinner } from "react-bootstrap";
 import "./../../App.css";
 import useIsLoggedIn from "../../hooks/useIsLoggedIn";
@@ -11,8 +12,8 @@ import jwt_decode from "jwt-decode";
 import styles from "./Profile.module.scss";
 
 function Profile() {
-  const navigate = useNavigate();
   const { id } = useParams();
+  const [showEditProfileModal, setShowEditProfileModal] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isOwnProfile, setIsOwnProfile] = useState(false);
   const [isFetching, setIsFetching] = useState(true);
@@ -21,6 +22,10 @@ function Profile() {
     bio: "",
     profile_picture: "",
   });
+
+  const toggleModal = () => {
+    setShowEditProfileModal((prev) => !prev);
+  };
 
   useEffect(() => {
     if (useIsLoggedIn()) {
@@ -45,10 +50,20 @@ function Profile() {
       });
   }, []);
 
+  const saveChanges = () => {
+    console.log("Saved.");
+  };
+
   console.log(data);
 
   return (
     <div>
+      <EditProfileModal
+        saveHandler={saveChanges}
+        userData={data}
+        closeHandler={toggleModal}
+        showModal={showEditProfileModal}
+      />
       <NavigationBar />
       {isFetching ? (
         <div className={styles.spinner}>
@@ -65,7 +80,7 @@ function Profile() {
               <div className={styles.username}>{data.username}</div>
               {isLoggedIn && isOwnProfile && (
                 <div>
-                  <Button onClick={() => navigate("/")} value="Edit profile" />
+                  <Button onClick={toggleModal} value="Edit profile" />
                 </div>
               )}
             </div>
@@ -79,7 +94,7 @@ function Profile() {
                 {data.first_name} {data.last_name}
               </strong>
             </div>
-            <div className={styles.bio}>Hello everyone, read my bio here.</div>
+            <div className={styles.bio}>{data.bio}</div>
           </div>
         </div>
       )}

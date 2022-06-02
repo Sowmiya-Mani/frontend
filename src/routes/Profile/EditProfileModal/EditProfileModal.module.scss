@@ -1,0 +1,29 @@
+.edit-profile-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.input {
+  padding: 10px;
+  border: 1px solid black;
+  border-radius: 4px;
+  margin-top: 5px;
+
+  &:focus:active {
+    border: 1px solid var(--primary) !important;
+  }
+
+  &:focus-visible {
+    border: 1px solid var(--primary) !important;
+    outline: none !important;
+  }
+}
+
+.bio-input {
+  @extend .input;
+  height: 120px;
+}
+
+.modal-title {
+  color: var(--primary);
+}
