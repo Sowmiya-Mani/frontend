@@ -2,11 +2,27 @@ import React, { useState } from "react";
 import { Modal } from "react-bootstrap";
 import Button from "../../../components/Button";
 import PropTypes from "prop-types";
+import { useParams } from "react-router-dom";
+import usersService from "../../../services/users";
 import styles from "./EditProfileModal.module.scss";
 
-function EditProfileModal({ userData, showModal, closeHandler, saveHandler }) {
+function EditProfileModal({ userData, showModal, closeHandler }) {
+  const { id } = useParams();
   const [changed, setChanged] = useState(false);
   const [updatedUserData, setUpdatedUserData] = useState({});
+
+  const saveChanges = () => {
+    usersService
+      .updateUser(id, updatedUserData)
+      .then((res) => {
+        console.log(res.data);
+        closeHandler();
+        window.location.reload();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   const onChange = (e) => {
     e.preventDefault();
@@ -59,6 +75,13 @@ function EditProfileModal({ userData, showModal, closeHandler, saveHandler }) {
             onChange={onChange}
             className={styles.input}
             type="text"
+            name="username"
+            placeholder={userData.username}
+          />
+          <input
+            onChange={onChange}
+            className={styles.input}
+            type="text"
             name="profile_picture"
             placeholder={userData.profile_picture}
           />
@@ -80,7 +103,7 @@ function EditProfileModal({ userData, showModal, closeHandler, saveHandler }) {
       </Modal.Body>
 
       <Modal.Footer className={styles.footer}>
-        <Button value="Save" onClick={saveHandler} disabled={!changed} />
+        <Button value="Save" onClick={saveChanges} disabled={!changed} />
       </Modal.Footer>
     </Modal>
   );
@@ -89,7 +112,6 @@ function EditProfileModal({ userData, showModal, closeHandler, saveHandler }) {
 EditProfileModal.propTypes = {
   closeHandler: PropTypes.func.isRequired,
   showModal: PropTypes.bool.isRequired,
-  saveHandler: PropTypes.func.isRequired,
   userData: PropTypes.object.isRequired,
 };
 

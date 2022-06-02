@@ -13,4 +13,7 @@ export default {
   getUserById(payload) {
     return Api.get(`${baseURL}/users/` + payload.id).then((json) => json);
   },
+  updateUser(id, payload) {
+    return Api.put(`${baseURL}/users/` + id, payload).then((json) => json);
+  },
 };

@@ -50,16 +50,11 @@ function Profile() {
       });
   }, []);
 
-  const saveChanges = () => {
-    console.log("Saved.");
-  };
-
   console.log(data);
 
   return (
     <div>
       <EditProfileModal
-        saveHandler={saveChanges}
         userData={data}
         closeHandler={toggleModal}
         showModal={showEditProfileModal}
