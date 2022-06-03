@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import auctionsService from "../../services/auctions";
-import NavigationBar from "../../components/NavigationBar/NavigationBar";
 import Auction from "./Auction/Auction";
 import useIsLoggedIn from "../../hooks/useIsLoggedIn";
 import Button from "../../components/Button";
@@ -67,8 +66,6 @@ function AuctionList() {
         showModal={showAddAuctionModal}
         addAuctionHandler={addNewAuction}
       />
-
-      <NavigationBar />
       {isLoggedIn && (
         <div className={styles["start-auction-btn"]}>
           <Button value="Start an auction" onClick={toggleAddModal} />

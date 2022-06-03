@@ -7,7 +7,6 @@ import styles from "./Auction.module.scss";
 function Auction({ auction }) {
   const [bid, setBid] = useState(0);
   const [remainingTime, setRemainingTime] = useState(0);
-  console.log(auction);
   const { _id, item_name, item_description, bids, initial_price, date_ends } =
     auction;
 

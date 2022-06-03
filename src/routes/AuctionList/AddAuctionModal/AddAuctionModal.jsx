@@ -3,10 +3,12 @@ import { Modal } from "react-bootstrap";
 import PropTypes from "prop-types";
 import Button from "../../../components/Button";
 import { Form } from "react-bootstrap";
+import UploadImagesInput from "./UploadImagesInput";
 import styles from "./AddAuctionModal.module.scss";
 
 function AddAuctionModal({ showModal, closeHandler, addAuctionHandler }) {
   const [formData, setFormData] = useState({});
+  const [images, setImages] = useState([]);
 
   const onClose = () => {
     setFormData({});
@@ -18,14 +20,25 @@ function AddAuctionModal({ showModal, closeHandler, addAuctionHandler }) {
   };
 
   const onChange = (e) => {
+    if (e.target.name === "images") {
+      setFormData({ ...formData, [e.target.name]: e.target.files });
+      return;
+    }
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const onImageSelected = (e) => {
+    e.preventDefault();
+    onChange(e);
+    setImages(e.target.files);
+  };
+
   console.log(formData);
+  console.log(images);
 
   const formatMinDate = () => {
     let date = new Date();
-    date.setMinutes(date.getMinutes() + 30);
+    date.setMinutes(date.getMinutes() + 10);
     const arr = date.toString().split(" ");
 
     let month = date.getMonth() + 1;
@@ -84,6 +97,8 @@ function AddAuctionModal({ showModal, closeHandler, addAuctionHandler }) {
             value={formData["date_ends"]}
             min={formatMinDate()}
           ></input>
+
+          <UploadImagesInput multiple onChange={onImageSelected} />
         </Form>
       </Modal.Body>
       <Modal.Footer className={styles.footer}>

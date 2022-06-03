@@ -1,0 +1,18 @@
+.upload-photo-input {
+  display: none;
+}
+
+.label {
+  margin-top: 10px;
+  background-color: var(--primary) !important;
+  padding: 5px;
+  margin-inline: auto;
+  border: none;
+  border-radius: 4px;
+  color: white;
+
+  &:hover {
+    background-color: var(--primary-hover) !important;
+    cursor: pointer;
+  }
+}
