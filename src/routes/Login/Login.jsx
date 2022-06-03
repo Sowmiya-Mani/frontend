@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import NavigationBar from "../../components/NavigationBar";
 import Button from "../../components/Button";
 import { Container, Form, Toast } from "react-bootstrap";
 import useLocalStorage from "../../hooks/useLocalStorage";
@@ -38,6 +37,7 @@ function Login() {
         localStorage.setItem("token", response.data.token);
         setIsLoading(false);
         navigate("/");
+        window.location.reload();
       })
       .catch((err) => {
         console.log(err.response.data);
@@ -49,7 +49,6 @@ function Login() {
 
   return (
     <div>
-      <NavigationBar />
       <Container className={styles.container}>
         {errors.length > 0 && (
           <div className={styles["error-container"]}>

@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import NavigationBar from "../../components/NavigationBar";
 import Button from "../../components/Button";
 import {
   Container,
@@ -55,7 +54,6 @@ function Register() {
 
   return (
     <div>
-      <NavigationBar />
       <Container className={styles.container}>
         {errors.length > 0 && (
           <div className={styles["error-container"]}>

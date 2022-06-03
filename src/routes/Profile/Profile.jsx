@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Button from "../../components/Button";
-import NavigationBar from "../../components/NavigationBar";
 import usersService from "../../services/users";
 import ProfileNumber from "./ProfileNumber";
 import EditProfileModal from "./EditProfileModal";
@@ -59,7 +58,6 @@ function Profile() {
         closeHandler={toggleModal}
         showModal={showEditProfileModal}
       />
-      <NavigationBar />
       {isFetching ? (
         <div className={styles.spinner}>
           <Spinner animation="border" role="status" />

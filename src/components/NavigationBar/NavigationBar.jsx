@@ -13,6 +13,7 @@ import styles from "./NavigationBar.module.scss";
 
 function NavigationBar() {
   const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem("token"));
+  const [isLoading, setIsLoading] = useState(true);
   const [userData, setUserData] = useState({});
   const navigate = useNavigate();
 
@@ -28,12 +29,19 @@ function NavigationBar() {
   };
 
   useEffect(() => {
+    console.log("triggered use effect");
     if (isLoggedIn) {
       const jwtData = jwt_decode(localStorage.getItem("token"));
       usersService
         .getUserById({ id: jwtData.uid })
-        .then((res) => setUserData(res.data.data))
-        .catch((err) => console.log(err));
+        .then((res) => {
+          setUserData(res.data.data);
+          setIsLoading(false);
+        })
+        .catch((err) => {
+          setIsLoading(false);
+          console.log(err);
+        });
     }
   }, [isLoggedIn]);
 
@@ -48,7 +56,11 @@ function NavigationBar() {
             {isLoggedIn ? (
               <DropdownButton
                 id="dropdown-basic-button"
-                title={`${userData.first_name} ${userData.last_name}`}
+                title={`${
+                  isLoading
+                    ? "Loading..."
+                    : userData.first_name + " " + userData.last_name
+                } `}
               >
                 <Dropdown.Item onClick={goToProfile}>My profile</Dropdown.Item>
                 <Dropdown.Item onClick={logout}>Logout</Dropdown.Item>
