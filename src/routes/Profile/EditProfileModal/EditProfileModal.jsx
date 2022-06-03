@@ -8,6 +8,7 @@ import styles from "./EditProfileModal.module.scss";
 
 function EditProfileModal({ userData, showModal, closeHandler }) {
   const { id } = useParams();
+  const [loading, setLoading] = useState(false);
   const [changed, setChanged] = useState(false);
   const [updatedUserData, setUpdatedUserData] = useState({});
 
@@ -30,7 +31,19 @@ function EditProfileModal({ userData, showModal, closeHandler }) {
     checkChanges();
   };
 
-  console.log(updatedUserData);
+  const removePhoto = (e) => {
+    e.preventDefault();
+    setLoading(true);
+    usersService
+      .updateUser(id, { profile_picture: "" })
+      .then(() => {
+        setLoading(false);
+        window.location.reload();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   const checkChanges = () => {
     const keys = Object.keys(updatedUserData);
@@ -56,6 +69,29 @@ function EditProfileModal({ userData, showModal, closeHandler }) {
       </Modal.Header>
 
       <Modal.Body>
+        <div
+          className={styles["profile-pic"]}
+          style={{ backgroundImage: "url(" + userData.profile_picture + ")" }}
+        ></div>
+
+        <div className={styles["button-container"]}>
+          <div className={styles.buttons}>
+            <label className={styles["label"]} htmlFor="upload-photo">
+              Upload new photo
+            </label>
+            <input
+              className={styles["upload-photo"]}
+              id="upload-photo"
+              type="file"
+            ></input>
+            <Button
+              value="Remove photo"
+              onClick={removePhoto}
+              loading={loading}
+            />
+          </div>
+        </div>
+
         <form onSubmit={onSubmit} className={styles["edit-profile-form"]}>
           <input
             onChange={onChange}
@@ -78,13 +114,7 @@ function EditProfileModal({ userData, showModal, closeHandler }) {
             name="username"
             placeholder={userData.username}
           />
-          <input
-            onChange={onChange}
-            className={styles.input}
-            type="text"
-            name="profile_picture"
-            placeholder={userData.profile_picture}
-          />
+
           <textarea
             onChange={onChange}
             className={styles["bio-input"]}
