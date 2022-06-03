@@ -29,9 +29,9 @@ function NavigationBar() {
 
   useEffect(() => {
     if (isLoggedIn) {
-      const userData = jwt_decode(localStorage.getItem("token"));
+      const jwtData = jwt_decode(localStorage.getItem("token"));
       usersService
-        .getUserById({ id: userData.uid })
+        .getUserById({ id: jwtData.uid })
         .then((res) => setUserData(res.data.data))
         .catch((err) => console.log(err));
     }
