@@ -9,8 +9,9 @@ import {
   Button as BootstrapButton,
 } from "react-bootstrap";
 import usersService from "../../services/users";
-import styles from "./Register.module.scss";
 import { useNavigate } from "react-router-dom";
+import styles from "./Register.module.scss";
+import useLocalStorage from "../../hooks/useLocalStorage";
 
 function Register() {
   const [isShownPassword, setIsShownPassword] = useState(false);
@@ -25,6 +26,8 @@ function Register() {
     email: "",
     password: "",
   });
+
+  useLocalStorage();
 
   const handleClose = () => {
     setShowErr(false);
