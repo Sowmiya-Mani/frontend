@@ -7,13 +7,20 @@ import { getStorage } from "firebase/storage";
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyA9wgEOjrPWGBOHhcelgTAh1HDtv5Xs3_A",
-  authDomain: "auction-20760.firebaseapp.com",
-  projectId: "auction-20760",
-  storageBucket: "auction-20760.appspot.com",
-  messagingSenderId: "795153762054",
-  appId: "1:795153762054:web:15d68f01519f4989878087",
-  measurementId: "G-4BDNG4XPE0",
+  // eslint-disable-next-line no-undef
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+  // eslint-disable-next-line no-undef
+  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+  // eslint-disable-next-line no-undef
+  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+  // eslint-disable-next-line no-undef
+  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+  // eslint-disable-next-line no-undef
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+  // eslint-disable-next-line no-undef
+  appId: process.env.REACT_APP_FIREBASE_APP_ID,
+  // eslint-disable-next-line no-undef
+  measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID,
 };
 
 // Initialize Firebase

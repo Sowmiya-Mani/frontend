@@ -66,7 +66,7 @@ function Profile() {
         <div className={styles["upper-div"]}>
           <div
             className={styles["profile-pic"]}
-            style={{ backgroundImage: "url(" + data.profile_picture + ")" }}
+            style={{ backgroundImage: 'url("' + data.profile_picture + '")' }}
           ></div>
           <div className={styles["user-info"]}>
             <div className={styles["first-row"]}>

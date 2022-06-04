@@ -66,6 +66,12 @@
   }
 }
 
+.label-selected {
+  &:hover {
+    cursor: pointer;
+  }
+}
+
 .upload-photo {
   display: none;
 }
