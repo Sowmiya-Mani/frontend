@@ -2,15 +2,18 @@ import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import Button from "../../../components/Button";
 import bidsService from "../../../services/bids";
-import styles from "./Auction.module.scss";
+import useIsLoggedIn from "../../../hooks/useIsLoggedIn";
+import styles from "./AuctionCard.module.scss";
 
-function Auction({ auction }) {
+function AuctionCard({ auction }) {
   const [bid, setBid] = useState(0);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [remainingTime, setRemainingTime] = useState(0);
   const { _id, item_name, item_description, bids, initial_price, date_ends } =
     auction;
 
   useEffect(() => {
+    setIsLoggedIn(useIsLoggedIn);
     calculateRemainingTime();
   }, []);
 
@@ -67,7 +70,7 @@ function Auction({ auction }) {
           className={styles.photo}
           style={{
             backgroundImage:
-              "url('https://image.shutterstock.com/image-photo/attractive-african-young-confident-businesswoman-260nw-1712082700.jpg')",
+              "url('https://firebasestorage.googleapis.com/v0/b/auction-20760.appspot.com/o/images%2F2022_05_28_Klika_Muzej%20(6).jpg?alt=media&token=b890d5ff-cfed-4981-bd21-91e8e1cdf4c5')",
           }}
         ></div>
 
@@ -86,27 +89,29 @@ function Auction({ auction }) {
             {bids.length === 0 ? initial_price : bids[bids.length - 1].price} $
           </p>
 
-          <div className={styles["place-bid-wrapper"]}>
-            <p>
-              {" "}
-              <strong> Place your own bid: </strong>
-            </p>
-            <input
-              onChange={onChange}
-              type="text"
-              name="bid"
-              placeholder="Enter a larger bid than the current price"
-            />
-            <Button value="Place bid" onClick={onClick} />
-          </div>
+          {isLoggedIn && (
+            <div className={styles["place-bid-wrapper"]}>
+              <p>
+                {" "}
+                <strong> Place your own bid: </strong>
+              </p>
+              <input
+                onChange={onChange}
+                type="text"
+                name="bid"
+                placeholder="Enter a larger bid than the current price"
+              />
+              <Button value="Place bid" onClick={onClick} />
+            </div>
+          )}
         </div>
       </div>
     </div>
   );
 }
 
-Auction.propTypes = {
+AuctionCard.propTypes = {
   auction: PropTypes.object.isRequired,
 };
 
-export default Auction;
+export default AuctionCard;

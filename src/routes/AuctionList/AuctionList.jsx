@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import auctionsService from "../../services/auctions";
-import Auction from "./Auction/Auction";
+import AuctionCard from "./AuctionCards/AuctionCard";
 import useIsLoggedIn from "../../hooks/useIsLoggedIn";
 import Button from "../../components/Button";
 import AddAuctionModal from "./AddAuctionModal/AddAuctionModal";
@@ -34,6 +34,7 @@ function AuctionList() {
       .then((res) => {
         console.log(res);
         closeModal();
+        window.location.reload();
       })
       .catch((err) => {
         console.log(err);
@@ -72,13 +73,15 @@ function AuctionList() {
         </div>
       )}
 
-      {auctions.length > 0 ? (
-        auctions.map((auction, index) => (
-          <Auction key={index} auction={auction} />
-        ))
-      ) : (
-        <div>No auctions found!</div>
-      )}
+      <div className={styles["grid-container"]}>
+        {auctions.length > 0 ? (
+          auctions.map((auction, index) => (
+            <AuctionCard key={index} auction={auction} />
+          ))
+        ) : (
+          <div>No auctions found!</div>
+        )}
+      </div>
 
       {!exhausted ? (
         <div className={styles.button}>
