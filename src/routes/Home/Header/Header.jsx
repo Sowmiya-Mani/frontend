@@ -1,5 +1,4 @@
 import React from "react";
-import { Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import styles from "./Header.module.scss";
 
@@ -18,13 +17,9 @@ function Header() {
         the rush of winning an auction.
       </p>
 
-      <Button
-        onClick={onClick}
-        className={styles.button}
-        variant="outline-light"
-      >
-        Shop now
-      </Button>
+      <button className={styles.button} onClick={onClick}>
+        Show now
+      </button>
     </div>
   );
 }
