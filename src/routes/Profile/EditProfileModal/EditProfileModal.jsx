@@ -3,7 +3,6 @@ import { Modal, ProgressBar } from "react-bootstrap";
 import Button from "../../../components/Button";
 import PropTypes from "prop-types";
 import { useParams } from "react-router-dom";
-
 import usersService from "../../../services/users";
 import useUploadToStorage from "./../../../hooks/useUploadToStorage";
 import styles from "./EditProfileModal.module.scss";

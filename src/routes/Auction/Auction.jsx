@@ -7,10 +7,12 @@ import usersService from "../../services/users";
 import useIsLoggedIn from "../../hooks/useIsLoggedIn";
 import calculateRemainingTime from "../../utils/utils";
 import styles from "./Auction.module.scss";
+import ImageModal from "./ImageModal";
 
 function Auction() {
   const navigate = useNavigate();
   const { id } = useParams();
+  const [showImageModal, setShowImageModal] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState(false);
@@ -21,6 +23,10 @@ function Auction() {
   // const validateBid = () => {
 
   // }
+
+  const toggleImageModal = () => {
+    setShowImageModal((prev) => !prev);
+  };
 
   const onChange = (e) => {
     console.log(e.target.value);
@@ -72,23 +78,26 @@ function Auction() {
 
   return (
     <Container className={`${styles["layout-container"]} m-0`}>
+      <ImageModal show={showImageModal} handleClose={toggleImageModal} />
       {isLoading ? (
         <Spinner animation="border" variant="primary" />
       ) : (
         <>
           <Row className="w-100 m-10">
             <Col
-              className="justify-content-center d-flex align-items-center p-0"
+              className="justify-content-center d-flex flex-column align-items-center p-0"
               xs={12}
               sm={5}
             >
               <div
                 className={styles["image-container"]}
+                onClick={toggleImageModal}
                 style={{
                   backgroundImage:
                     "url('https://firebasestorage.googleapis.com/v0/b/auction-20760.appspot.com/o/images%2F2022_05_28_Klika_Muzej%20(6).jpg?alt=media&token=b890d5ff-cfed-4981-bd21-91e8e1cdf4c5')",
                 }}
               ></div>
+              <div>Click to see all photos</div>
             </Col>
             <Col xs={12} sm={5}>
               <div className={styles.info}>
