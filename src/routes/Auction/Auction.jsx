@@ -78,11 +78,15 @@ function Auction() {
 
   return (
     <Container className={`${styles["layout-container"]} m-0`}>
-      <ImageModal show={showImageModal} handleClose={toggleImageModal} />
       {isLoading ? (
         <Spinner animation="border" variant="primary" />
       ) : (
         <>
+          <ImageModal
+            show={showImageModal}
+            handleClose={toggleImageModal}
+            pictures={data.pictures}
+          />
           <Row className="w-100 m-10">
             <Col
               className="justify-content-center d-flex flex-column align-items-center p-0"
