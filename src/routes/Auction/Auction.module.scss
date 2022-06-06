@@ -1,0 +1,69 @@
+.layout-container {
+  height: calc(100vh - 56px);
+}
+
+.image-container {
+  //   margin-top: 100px;
+  //   margin-bottom: 100px;
+  margin-left: 10px;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  aspect-ratio: 8/5;
+  width: 90%;
+  height: auto;
+  border-radius: 5px 5px 5px 5px;
+
+  box-shadow: 3px 2px 6px -1px rgba(128, 128, 128, 0.7);
+  -webkit-box-shadow: 3px 2px 6px -1px rgba(128, 128, 128, 0.7);
+  -moz-box-shadow: 3px 2px 6px -1px rgba(128, 128, 128, 0.7);
+}
+
+.price-container {
+  display: flex;
+}
+
+.price {
+  margin-top: -12px;
+  color: black;
+  font-weight: 500;
+  font-size: 50px;
+}
+
+.title {
+  color: black;
+  font-weight: 500;
+  font-size: 25px;
+}
+
+.seller-info-container {
+  display: flex;
+  align-items: center;
+}
+
+.seller {
+  display: inline;
+  &:hover {
+    color: var(--primary);
+    text-decoration: underline;
+    cursor: pointer;
+  }
+}
+
+.seller-profile-picture {
+  display: block;
+  border: 1px solid gray;
+  border-radius: 50%;
+  margin: 10px 10px 10px 10px;
+  //   background: url("https://image.shutterstock.com/image-photo/attractive-african-young-confident-businesswoman-260nw-1712082700.jpg");
+  background-position: center;
+  background-size: cover;
+  aspect-ratio: 1/1;
+  width: 50px;
+  height: 50px;
+}
+
+.description {
+  margin-top: 10px;
+  margin-left: 10px;
+}

@@ -6,8 +6,13 @@ import { Form } from "react-bootstrap";
 import UploadImagesInput from "./UploadImagesInput";
 import styles from "./AddAuctionModal.module.scss";
 
-function AddAuctionModal({ showModal, closeHandler, addAuctionHandler }) {
-  const [formData, setFormData] = useState({});
+function AddAuctionModal({
+  showModal,
+  closeHandler,
+  addAuctionHandler,
+  userId,
+}) {
+  const [formData, setFormData] = useState({ created_by: userId });
   const [images, setImages] = useState([]);
 
   const onClose = () => {
@@ -113,6 +118,7 @@ AddAuctionModal.propTypes = {
   closeHandler: PropTypes.func.isRequired,
   showModal: PropTypes.bool.isRequired,
   addAuctionHandler: PropTypes.func.isRequired,
+  userId: PropTypes.string.isRequired,
 };
 
 export default AddAuctionModal;

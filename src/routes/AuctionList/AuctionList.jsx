@@ -4,6 +4,7 @@ import AuctionCard from "./AuctionCards/AuctionCard";
 import useIsLoggedIn from "../../hooks/useIsLoggedIn";
 import Button from "../../components/Button";
 import AddAuctionModal from "./AddAuctionModal/AddAuctionModal";
+import jwtDecode from "jwt-decode";
 import styles from "./AuctionList.module.scss";
 
 function AuctionList() {
@@ -66,6 +67,7 @@ function AuctionList() {
         closeHandler={closeModal}
         showModal={showAddAuctionModal}
         addAuctionHandler={addNewAuction}
+        userId={jwtDecode(localStorage.getItem("token")).uid}
       />
       {isLoggedIn && (
         <div className={styles["start-auction-btn"]}>
