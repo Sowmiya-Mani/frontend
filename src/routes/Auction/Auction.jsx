@@ -107,7 +107,6 @@ function Auction() {
               <div className={styles.info}>
                 <div className={styles.title}>{data.item_name}</div>
                 <div className={styles["price-container"]}>
-                  Current price:
                   <div className={styles.price}>
                     US ${" "}
                     {data.bids.length === 0
