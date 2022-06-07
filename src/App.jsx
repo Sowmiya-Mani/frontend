@@ -8,6 +8,7 @@ import Auction from "./routes/Auction";
 import Profile from "./routes/Profile";
 import NavigationBar from "./components/NavigationBar";
 import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap-icons/font/bootstrap-icons.css";
 
 function App() {
   return (

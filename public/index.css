@@ -3,4 +3,6 @@
   --primary: rgb(147, 69, 147);
   --primary-hover: rgb(171, 81, 171);
   --gray: rgb(141, 141, 141);
+  --error: crimson;
+  --success: #4df083;
 }

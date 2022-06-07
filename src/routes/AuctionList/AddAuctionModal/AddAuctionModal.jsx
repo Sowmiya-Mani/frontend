@@ -65,52 +65,54 @@ function AddAuctionModal({
   };
 
   return (
-    <Modal show={showModal} onHide={closeHandler}>
-      <Modal.Header closeButton>
-        <Modal.Title className={styles["modal-title"]}>
-          Start your own auction
-        </Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-        <Form onSubmit={onSubmit} className={styles["auction-form"]}>
-          <input
-            onChange={onChange}
-            className={styles.input}
-            type="text"
-            name="item_name"
-            placeholder="Item name"
-          />
-          <textarea
-            onChange={onChange}
-            className={styles["description-input"]}
-            type="text"
-            name="item_description"
-            placeholder="Item desc"
-          />
-          <input
-            onChange={onChange}
-            className={styles.input}
-            type="text"
-            name="initial_price"
-            placeholder="Starting price"
-          />
-          <input
-            className={styles.input}
-            type="datetime-local"
-            name="date_ends"
-            onChange={onChange}
-            value={formData["date_ends"]}
-            min={formatMinDate()}
-          ></input>
+    <>
+      <Modal show={showModal} onHide={closeHandler}>
+        <Modal.Header closeButton>
+          <Modal.Title className={styles["modal-title"]}>
+            Start your own auction
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form onSubmit={onSubmit} className={styles["auction-form"]}>
+            <input
+              onChange={onChange}
+              className={styles.input}
+              type="text"
+              name="item_name"
+              placeholder="Item name"
+            />
+            <textarea
+              onChange={onChange}
+              className={styles["description-input"]}
+              type="text"
+              name="item_description"
+              placeholder="Item desc"
+            />
+            <input
+              onChange={onChange}
+              className={styles.input}
+              type="text"
+              name="initial_price"
+              placeholder="Starting price"
+            />
+            <input
+              className={styles.input}
+              type="datetime-local"
+              name="date_ends"
+              onChange={onChange}
+              value={formData["date_ends"]}
+              min={formatMinDate()}
+            ></input>
 
-          <UploadImagesInput multiple onChange={onImageSelected} />
-        </Form>
-      </Modal.Body>
-      <Modal.Footer className={styles.footer}>
-        <Button value="Close" color="slateblue" onClick={onClose} />
-        <Button value="Save changes" onClick={onSubmit} />
-      </Modal.Footer>
-    </Modal>
+            <UploadImagesInput multiple onChange={onImageSelected} />
+          </Form>
+        </Modal.Body>
+        <Modal.Footer className={styles.footer}>
+          <Button value="Close" color="slateblue" onClick={onClose} />
+          <Button value="Save changes" onClick={onSubmit} />
+        </Modal.Footer>
+      </Modal>
+    </>
   );
 }
 
