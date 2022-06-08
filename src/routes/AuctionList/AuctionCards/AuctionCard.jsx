@@ -5,16 +5,20 @@ import styles from "./AuctionCard.module.scss";
 
 function AuctionCard({ auction }) {
   const navigate = useNavigate();
-  const { _id, item_name, bids, initial_price } = auction;
+  const { _id, item_name, bids, initial_price, pictures } = auction;
   return (
     <div className={styles.container}>
       <div
         className={styles.image}
         style={{
           backgroundImage:
-            "url('https://firebasestorage.googleapis.com/v0/b/auction-20760.appspot.com/o/images%2F2022_05_28_Klika_Muzej%20(6).jpg?alt=media&token=b890d5ff-cfed-4981-bd21-91e8e1cdf4c5')",
+            pictures.length > 0 && `url("${pictures[0].img_url}")`,
         }}
-      ></div>
+      >
+        {pictures.length === 0 && (
+          <i className={`bi bi-image ${styles["image-icon"]}`}></i>
+        )}
+      </div>
       <div
         onClick={() => {
           navigate("/auction/" + _id);

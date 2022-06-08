@@ -98,9 +98,14 @@ function Auction() {
                 onClick={toggleImageModal}
                 style={{
                   backgroundImage:
-                    "url('https://firebasestorage.googleapis.com/v0/b/auction-20760.appspot.com/o/images%2F2022_05_28_Klika_Muzej%20(6).jpg?alt=media&token=b890d5ff-cfed-4981-bd21-91e8e1cdf4c5')",
+                    data.pictures.length > 0 &&
+                    `url("${data.pictures[0].img_url}")`,
                 }}
-              ></div>
+              >
+                {data.pictures.length === 0 && (
+                  <i className={`bi bi-image ${styles["image-icon"]}`}></i>
+                )}
+              </div>
               <div>Click to see all photos</div>
             </Col>
             <Col xs={12} sm={5}>

@@ -12,18 +12,22 @@ function ImageModal({ handleClose, show, pictures }) {
           <Modal.Title className={styles.title}>Images</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Carousel>
-            {pictures.map((picture, index) => (
-              <Carousel.Item key={index}>
-                <img className="d-block w-100" src={picture.img_url} />
-                <Carousel.Caption>
-                  <h3>
-                    Image {index + 1} out of {pictures.length}
-                  </h3>
-                </Carousel.Caption>
-              </Carousel.Item>
-            ))}
-          </Carousel>
+          {pictures.length > 0 ? (
+            <Carousel>
+              {pictures.map((picture, index) => (
+                <Carousel.Item key={index}>
+                  <img className="d-block w-100" src={picture.img_url} />
+                  <Carousel.Caption>
+                    <h3>
+                      Image {index + 1} out of {pictures.length}
+                    </h3>
+                  </Carousel.Caption>
+                </Carousel.Item>
+              ))}
+            </Carousel>
+          ) : (
+            <div> This item currently has no pictures</div>
+          )}
         </Modal.Body>
         <Modal.Footer>
           <Button value="Close" onClick={handleClose} />

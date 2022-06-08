@@ -72,7 +72,7 @@ function AuctionList() {
         console.log(res);
         if (res.error) {
           console.log(res);
-          setError("Something weng wrong");
+          setError("Something went wrong");
           // setError(res.error);
         } else {
           setSuccess("Successfully added an auction");

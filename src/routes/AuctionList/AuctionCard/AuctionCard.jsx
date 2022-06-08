@@ -9,8 +9,15 @@ function AuctionCard({ auction }) {
   const [bid, setBid] = useState(0);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [remainingTime, setRemainingTime] = useState(0);
-  const { _id, item_name, item_description, bids, initial_price, date_ends } =
-    auction;
+  const {
+    _id,
+    item_name,
+    item_description,
+    bids,
+    initial_price,
+    date_ends,
+    pictures,
+  } = auction;
 
   useEffect(() => {
     setIsLoggedIn(useIsLoggedIn);
@@ -70,7 +77,7 @@ function AuctionCard({ auction }) {
           className={styles.photo}
           style={{
             backgroundImage:
-              "url('https://firebasestorage.googleapis.com/v0/b/auction-20760.appspot.com/o/images%2F2022_05_28_Klika_Muzej%20(6).jpg?alt=media&token=b890d5ff-cfed-4981-bd21-91e8e1cdf4c5')",
+              pictures.length > 0 && `url("${pictures[0].img_url}")`,
           }}
         ></div>
 

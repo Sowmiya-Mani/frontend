@@ -3,10 +3,11 @@
 }
 
 .image-container {
+  display: flex;
+  align-items: center;
   cursor: pointer;
   //   margin-top: 100px;
   //   margin-bottom: 100px;
-  margin-left: 10px;
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
@@ -67,4 +68,9 @@
 .description {
   margin-top: 10px;
   margin-left: 10px;
+}
+
+.image-icon {
+  margin-inline: auto;
+  font-size: 50px;
 }
