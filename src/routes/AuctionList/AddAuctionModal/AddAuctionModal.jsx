@@ -1,9 +1,10 @@
-import React, { useState } from "react";
-import { Modal } from "react-bootstrap";
+import React, { useState, useEffect } from "react";
+import { Modal, ProgressBar } from "react-bootstrap";
 import PropTypes from "prop-types";
 import Button from "../../../components/Button";
 import { Form } from "react-bootstrap";
 import UploadImagesInput from "./UploadImagesInput";
+import useUploadToStorage from "../../../hooks/useUploadToStorage";
 import styles from "./AddAuctionModal.module.scss";
 
 function AddAuctionModal({
@@ -14,19 +15,78 @@ function AddAuctionModal({
 }) {
   const [formData, setFormData] = useState({ created_by: userId });
   const [images, setImages] = useState([]);
+  const [progress, setProgress] = useState([]);
+  const [uploadedImages, setUploadedImages] = useState(false);
+  const [imageUrls, setImageUrls] = useState([]);
+
+  const uploadImages = () => {
+    console.log("Started uploading.");
+    images.forEach((image, index) => {
+      useUploadToStorage(image, onProgress, onSuccess, onFail, index);
+    });
+  };
+
+  const onFail = (error, index) => {
+    console.log(error);
+    console.log("Failed upload at index: " + index);
+  };
+
+  const onSuccess = (downloadUrl, index) => {
+    console.log(
+      "Successful upload at index: " + index + "Downloadurl: " + downloadUrl
+    );
+
+    setImageUrls((prevState) => {
+      let update = prevState;
+      update[index] = downloadUrl;
+      return [...update];
+    });
+
+    if (imageUrls.length === images.length) {
+      console.log("Finished uploading");
+      setFormData({
+        ...formData,
+        pictures: imageUrls.map((url) => Object({ img_url: url })),
+      });
+      setUploadedImages(true);
+    }
+  };
+
+  const onProgress = (percent, index) => {
+    setProgress((prev) => {
+      let update = prev;
+      update[index] = percent;
+      return [...update];
+    });
+  };
+
+  // console.log(imageUrls);
+
+  useEffect(() => {
+    if (uploadedImages) {
+      // let imageFormData = imageUrls.map((url) => Object({ img_url: url }));
+      // console.log(imageFormData);
+      // setFormData({ ...formData, pictures: Array.from(imageFormData) });
+      addAuctionHandler(formData);
+    }
+  }, [uploadedImages]);
+
+  console.log(formData);
 
   const onClose = () => {
     setFormData({});
+    setImages([]);
     closeHandler();
   };
 
   const onSubmit = () => {
-    addAuctionHandler(formData);
+    uploadImages();
+    // addAuctionHandler(formData);
   };
 
   const onChange = (e) => {
     if (e.target.name === "images") {
-      setFormData({ ...formData, [e.target.name]: e.target.files });
+      setFormData({ ...formData, pictures: e.target.files });
       return;
     }
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -35,11 +95,14 @@ function AddAuctionModal({
   const onImageSelected = (e) => {
     e.preventDefault();
     onChange(e);
-    setImages(e.target.files);
+    setImages([...e.target.files]);
   };
 
-  console.log(formData);
-  console.log(images);
+  useEffect(() => {
+    if (images.length > 0) {
+      setProgress(new Array(images.length).fill(0));
+    }
+  }, [images]);
 
   const formatMinDate = () => {
     let date = new Date();
@@ -104,7 +167,17 @@ function AddAuctionModal({
               min={formatMinDate()}
             ></input>
 
-            <UploadImagesInput multiple onChange={onImageSelected} />
+            {images.length === 0 ? (
+              <UploadImagesInput multiple onChange={onImageSelected} />
+            ) : (
+              images.map((image, index) => (
+                <div key={index}>
+                  {image.name}{" "}
+                  <ProgressBar variant="primary" now={progress[index]} />
+                  <div>{progress[index]}</div>
+                </div>
+              ))
+            )}
           </Form>
         </Modal.Body>
         <Modal.Footer className={styles.footer}>

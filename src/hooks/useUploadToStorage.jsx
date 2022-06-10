@@ -1,7 +1,14 @@
 import { storage } from "./../firebase";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 
-async function useUploadToStorage(file, onProgress, onSuccess, onFail) {
+/**
+ * @param {*} file - JS File Object of the file to be uploaded
+ * @param {*} onProgress - callback for progress
+ * @param {*} onSuccess - callback for success
+ * @param {*} onFail - callback for fail
+ * @param {*} index - index used for progress function in case there are multiple files to upload
+ */
+async function useUploadToStorage(file, onProgress, onSuccess, onFail, index) {
   const storageRef = ref(storage, `images/${file.name}`);
 
   const uploadTask = uploadBytesResumable(storageRef, file);
@@ -9,9 +16,9 @@ async function useUploadToStorage(file, onProgress, onSuccess, onFail) {
   uploadTask.on(
     "state_changed",
     (snapshot) => {
-      const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-      console.log("Upload is " + progress + "% done");
-      onProgress(progress);
+      const percent = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+      console.log("Upload is " + percent + "% done");
+      onProgress(percent, index);
     },
     (error) => {
       console.log(error);
@@ -20,7 +27,7 @@ async function useUploadToStorage(file, onProgress, onSuccess, onFail) {
     () => {
       getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
         // console.log("File available at", downloadURL);
-        onSuccess(downloadURL);
+        onSuccess(downloadURL, index);
       });
     }
   );
