@@ -63,7 +63,7 @@ function AuctionList() {
     setShowAddAuctionModal((prev) => !prev);
   };
 
-  const addNewAuction = (payload) => {
+  const addNewAuction = (payload, setLoading) => {
     resetErrorAndSuccess();
     auctionsService
       .postAuction(payload)
@@ -73,18 +73,20 @@ function AuctionList() {
         if (res.error) {
           console.log(res);
           setError("Something went wrong");
+          setLoading(false);
           // setError(res.error);
         } else {
           setSuccess("Successfully added an auction");
+          setLoading(false);
           getAuctions();
         }
         closeModal();
-        // window.location.reload();
       })
       .catch((err) => {
         console.log("There is an error");
         console.log(err.response.data.error);
         setError(err.response.data.error);
+        setLoading(false);
         // setError(err.error);
       });
   };
@@ -95,7 +97,7 @@ function AuctionList() {
 
   return (
     <div className={styles["list-wrapper"]}>
-      {error.length > 0 && <ErrorAlert message={error} />}
+      {error.length > 0 && <ErrorAlert message={error} setMessage={setError} />}
       {success.length > 0 && <SuccessAlert message={success} />}
 
       <AddAuctionModal

@@ -5,6 +5,7 @@ import Button from "../../../components/Button";
 import { Form } from "react-bootstrap";
 import UploadImagesInput from "./UploadImagesInput";
 import useUploadToStorage from "../../../hooks/useUploadToStorage";
+import ErrorAlert from "../../../components/Alerts/ErrorAlert";
 import styles from "./AddAuctionModal.module.scss";
 
 function AddAuctionModal({
@@ -18,8 +19,11 @@ function AddAuctionModal({
   const [progress, setProgress] = useState([]);
   const [uploadedImages, setUploadedImages] = useState(false);
   const [imageUrls, setImageUrls] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const uploadImages = () => {
+    setLoading(true);
     console.log("Started uploading.");
     images.forEach((image, index) => {
       useUploadToStorage(image, onProgress, onSuccess, onFail, index);
@@ -27,6 +31,7 @@ function AddAuctionModal({
   };
 
   const onFail = (error, index) => {
+    setLoading(false);
     console.log(error);
     console.log("Failed upload at index: " + index);
   };
@@ -60,18 +65,11 @@ function AddAuctionModal({
     });
   };
 
-  // console.log(imageUrls);
-
   useEffect(() => {
     if (uploadedImages) {
-      // let imageFormData = imageUrls.map((url) => Object({ img_url: url }));
-      // console.log(imageFormData);
-      // setFormData({ ...formData, pictures: Array.from(imageFormData) });
-      addAuctionHandler(formData);
+      addAuctionHandler(formData, setLoading);
     }
   }, [uploadedImages]);
-
-  console.log(formData);
 
   const onClose = () => {
     setFormData({});
@@ -79,9 +77,35 @@ function AddAuctionModal({
     closeHandler();
   };
 
+  const validateData = () => {
+    const requiredFields = [
+      "created_by",
+      "item_name",
+      "item_description",
+      "date_ends",
+      "initial_price",
+    ];
+
+    for (let field of requiredFields) {
+      if (formData[field] === "" || formData[field] == null) {
+        setError(field + " cannot be empty");
+        return false;
+      }
+    }
+    return true;
+  };
+
   const onSubmit = () => {
+    let validData = validateData();
+    if (!validData) {
+      return;
+    }
+    if (images.length === 0) {
+      setError("Please upload some images.");
+      // addAuctionHandler(formData, setLoading);
+      return;
+    }
     uploadImages();
-    // addAuctionHandler(formData);
   };
 
   const onChange = (e) => {
@@ -129,6 +153,7 @@ function AddAuctionModal({
 
   return (
     <>
+      {error.length > 0 && <ErrorAlert message={error} setMessage={setError} />}
       <Modal show={showModal} onHide={closeHandler}>
         <Modal.Header closeButton>
           <Modal.Title className={styles["modal-title"]}>
@@ -182,7 +207,7 @@ function AddAuctionModal({
         </Modal.Body>
         <Modal.Footer className={styles.footer}>
           <Button value="Close" color="slateblue" onClick={onClose} />
-          <Button value="Save changes" onClick={onSubmit} />
+          <Button value="Save changes" onClick={onSubmit} disabled={loading} />
         </Modal.Footer>
       </Modal>
     </>
