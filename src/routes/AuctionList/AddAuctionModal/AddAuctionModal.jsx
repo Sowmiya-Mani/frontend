@@ -73,7 +73,7 @@ function AddAuctionModal({
 
   useEffect(() => {
     if (uploadedImages) {
-      addAuctionHandler(formData, setLoading);
+      addAuctionHandler(formData, setLoading, setImages);
     }
   }, [uploadedImages]);
 
@@ -108,7 +108,6 @@ function AddAuctionModal({
     }
     if (images.length === 0) {
       setError("Please upload some images.");
-      // addAuctionHandler(formData, setLoading);
       return;
     }
     uploadImages();
@@ -202,10 +201,14 @@ function AddAuctionModal({
               <UploadImagesInput multiple onChange={onImageSelected} />
             ) : (
               images.map((image, index) => (
-                <div key={index}>
-                  {image.name}{" "}
-                  <ProgressBar variant="primary" now={progress[index]} />
-                  <div>{progress[index]}</div>
+                <div key={index} className={styles.progress}>
+                  <div style={{ marginBottom: "5px" }}>{image.name} </div>
+                  <ProgressBar
+                    style={{ width: "100%" }}
+                    variant="primary"
+                    now={progress[index]}
+                  />
+                  <div>{progress[index]?.toFixed(2)} %</div>
                 </div>
               ))
             )}

@@ -63,7 +63,7 @@ function AuctionList() {
     setShowAddAuctionModal((prev) => !prev);
   };
 
-  const addNewAuction = (payload, setLoading) => {
+  const addNewAuction = (payload, setLoading, setImages) => {
     resetErrorAndSuccess();
     auctionsService
       .postAuction(payload)
@@ -78,6 +78,7 @@ function AuctionList() {
         } else {
           setSuccess("Successfully added an auction");
           setLoading(false);
+          setImages([]);
           getAuctions();
         }
         closeModal();
