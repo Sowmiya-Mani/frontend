@@ -46,8 +46,14 @@ function AddAuctionModal({
       update[index] = downloadUrl;
       return [...update];
     });
+  };
 
-    if (imageUrls.length === images.length) {
+  useEffect(() => {
+    if (
+      imageUrls.length !== 0 &&
+      imageUrls.length === images.length &&
+      !imageUrls.includes(undefined)
+    ) {
       console.log("Finished uploading");
       setFormData({
         ...formData,
@@ -55,7 +61,7 @@ function AddAuctionModal({
       });
       setUploadedImages(true);
     }
-  };
+  }, [imageUrls]);
 
   const onProgress = (percent, index) => {
     setProgress((prev) => {
