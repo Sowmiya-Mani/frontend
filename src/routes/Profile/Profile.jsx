@@ -8,6 +8,7 @@ import { Spinner } from "react-bootstrap";
 import "./../../App.css";
 import useIsLoggedIn from "../../hooks/useIsLoggedIn";
 import jwt_decode from "jwt-decode";
+import Tab from "./Tab";
 import styles from "./Profile.module.scss";
 
 function Profile() {
@@ -91,6 +92,10 @@ function Profile() {
           </div>
         </div>
       )}
+
+      <div className={styles["tab-container"]}>
+        <Tab name="Amar" />
+      </div>
 
       <hr className={styles["horizontal-line"]} />
     </div>

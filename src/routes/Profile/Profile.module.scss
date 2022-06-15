@@ -62,6 +62,11 @@
   justify-content: center;
 }
 
+.tab-container {
+  display: flex;
+  justify-content: center;
+}
+
 @media (max-width: 900px) {
   .upper-div {
     margin-left: 10px;
