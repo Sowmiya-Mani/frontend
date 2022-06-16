@@ -9,8 +9,11 @@ import Profile from "./routes/Profile";
 import NavigationBar from "./components/NavigationBar";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
+import useSocketio from "./hooks/useSocketio";
 
 function App() {
+  useSocketio();
+
   return (
     <div>
       <NavigationBar />
