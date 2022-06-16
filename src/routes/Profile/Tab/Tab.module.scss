@@ -1,0 +1,30 @@
+.flex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.tab {
+  @extend .flex;
+  padding-bottom: 10px;
+  padding-inline: 5px;
+  cursor: pointer;
+  margin-bottom: -1px;
+}
+
+.tab-selected {
+  @extend .flex;
+  padding-bottom: 10px;
+  padding-inline: 5px;
+  border-bottom: 2px solid var(--primary) !important;
+  margin-bottom: -1px;
+  z-index: 100;
+}
+
+.selected {
+  color: var(--primary);
+}
+
+.line {
+  color: var(--primary);
+}

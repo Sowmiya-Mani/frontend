@@ -22,6 +22,7 @@ function Profile() {
     bio: "",
     profile_picture: "",
   });
+  const [selectedTab, setSelectedTab] = useState(0);
 
   const toggleModal = () => {
     setShowEditProfileModal((prev) => !prev);
@@ -94,7 +95,21 @@ function Profile() {
       )}
 
       <div className={styles["tab-container"]}>
-        <Tab name="Amar" />
+        <Tab
+          name="Auctions"
+          selected={selectedTab === 0}
+          onClick={() => setSelectedTab(0)}
+        />
+        <Tab
+          name="Bids"
+          selected={selectedTab === 1}
+          onClick={() => setSelectedTab(1)}
+        />
+        <Tab
+          name="Won bids"
+          selected={selectedTab === 2}
+          onClick={() => setSelectedTab(2)}
+        />
       </div>
 
       <hr className={styles["horizontal-line"]} />
