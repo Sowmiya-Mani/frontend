@@ -6,8 +6,10 @@ import Button from "../../components/Button";
 import usersService from "../../services/users";
 import useIsLoggedIn from "../../hooks/useIsLoggedIn";
 import calculateRemainingTime from "../../utils/utils";
-import styles from "./Auction.module.scss";
 import ImageModal from "./ImageModal";
+import bidsService from "../../services/bids";
+import { io } from "socket.io-client";
+import styles from "./Auction.module.scss";
 
 function Auction() {
   const navigate = useNavigate();
@@ -17,8 +19,17 @@ function Auction() {
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState(false);
   const [userData, setUserData] = useState({});
-  const [timeRemaining, setTimeRemaining] = useState(0);
+  const [timeRemaining, setTimeRemaining] = useState("");
   const [loadingUserData, setLoadingUserData] = useState(true);
+  const [bid, setBid] = useState("");
+
+  const socket = io("http://localhost:3000");
+
+  socket.on("postedBid", (arg) => {
+    if (arg._id === id) {
+      setData(arg);
+    }
+  });
 
   // const validateBid = () => {
 
@@ -29,12 +40,23 @@ function Auction() {
   };
 
   const onChange = (e) => {
-    console.log(e.target.value);
+    setBid(e.target.value);
   };
 
   const onClick = (e) => {
     e.preventDefault();
-    console.log("Clicked on the button");
+    bidsService
+      .postNewBid({
+        price: bid,
+        auction_id: id,
+      })
+      .then((res) => {
+        console.log(res.data);
+        setBid("");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   useEffect(() => {
@@ -56,7 +78,7 @@ function Auction() {
   useEffect(() => {
     const interval = setInterval(() => {
       calculateRemainingTime(data.date_ends, setTimeRemaining);
-    }, 1000);
+    }, 100000);
 
     if (data && loadingUserData) {
       calculateRemainingTime(data.date_ends, setTimeRemaining);
@@ -98,7 +120,7 @@ function Auction() {
                 onClick={toggleImageModal}
                 style={{
                   backgroundImage:
-                    data.pictures.length > 0 &&
+                    data.pictures?.length > 0 &&
                     `url("${data.pictures[0].img_url}")`,
                 }}
               >
@@ -125,6 +147,7 @@ function Auction() {
                     <input
                       onChange={onChange}
                       type="text"
+                      value={bid}
                       name="bid"
                       placeholder="Enter a larger bid than the current price"
                     />

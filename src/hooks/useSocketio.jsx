@@ -10,6 +10,10 @@ function useSocketio() {
   socket.on("hello", (arg) => {
     console.log(arg);
   });
+
+  // socket.on("postedBid", (arg) => {
+  //   console.log(arg);
+  // });
 }
 
 export default useSocketio;
