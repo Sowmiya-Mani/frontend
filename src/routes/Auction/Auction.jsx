@@ -35,6 +35,8 @@ function Auction() {
     }
   });
 
+  console.log(data);
+
   const validateBid = () => {
     console.log("Validating a bid");
     if (isNaN(bid)) {
@@ -189,7 +191,12 @@ function Auction() {
                       <Button value="Place bid" onClick={onClick} />
                     </div>
                   )}
-                  <div>Time remaining: {timeRemaining}</div>
+                  <div>
+                    Time remaining:{" "}
+                    {timeRemaining.startsWith("-")
+                      ? `EXPIRED on ${data.date_ends.substring(0, 10)}`
+                      : timeRemaining}
+                  </div>
                 </div>
               </Col>
               <Col xs={12} sm={2}>
