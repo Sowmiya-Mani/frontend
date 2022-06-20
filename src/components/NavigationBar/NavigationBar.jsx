@@ -50,7 +50,10 @@ function NavigationBar() {
     <div>
       <Navbar className={styles.navbar}>
         <Container className={styles["navbar-container"]}>
-          <Navbar.Brand onClick={() => navigate("/")}>
+          <Navbar.Brand
+            onClick={() => navigate("/")}
+            style={{ cursor: "pointer" }}
+          >
             Ace.
             <div
               style={{
