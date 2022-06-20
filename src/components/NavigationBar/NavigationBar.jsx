@@ -51,7 +51,16 @@ function NavigationBar() {
       <Navbar className={styles.navbar}>
         <Container className={styles["navbar-container"]}>
           <Navbar.Brand onClick={() => navigate("/")}>
-            Auction System
+            Ace.
+            <div
+              style={{
+                display: "inline",
+                fontWeight: "500",
+                color: "var(--primary)",
+              }}
+            >
+              io
+            </div>
           </Navbar.Brand>
           <Nav className="d-flex justify-content-center align-items-center">
             {window.location.pathname === "/auctions" && <Search />}
