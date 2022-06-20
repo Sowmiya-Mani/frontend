@@ -8,6 +8,7 @@ import { Spinner } from "react-bootstrap";
 import "./../../App.css";
 import useIsLoggedIn from "../../hooks/useIsLoggedIn";
 import jwt_decode from "jwt-decode";
+import AuctionCards from "./../AuctionList/AuctionCards";
 import Tab from "./Tab";
 import styles from "./Profile.module.scss";
 
@@ -23,10 +24,23 @@ function Profile() {
     profile_picture: "",
   });
   const [selectedTab, setSelectedTab] = useState(0);
+  const [userAuctions, setUserAuctions] = useState([]);
 
   const toggleModal = () => {
     setShowEditProfileModal((prev) => !prev);
   };
+
+  useEffect(() => {
+    if (selectedTab === 0) {
+      usersService
+        .getUserAuctions(id)
+        .then((res) => {
+          console.log(res);
+          setUserAuctions(res.data.auctions);
+        })
+        .catch((err) => console.log(err));
+    }
+  }, [selectedTab]);
 
   useEffect(() => {
     if (useIsLoggedIn()) {
@@ -113,6 +127,14 @@ function Profile() {
       </div>
 
       <hr className={styles["horizontal-line"]} />
+
+      <div className={styles["items-container"]}>
+        {userAuctions.length > 0 &&
+          selectedTab === 0 &&
+          userAuctions.map((auction, idx) => (
+            <AuctionCards auction={auction} key={idx} />
+          ))}
+      </div>
     </div>
   );
 }

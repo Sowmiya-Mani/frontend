@@ -16,4 +16,7 @@ export default {
   updateUser(id, payload) {
     return Api.put(`${baseURL}/users/` + id, payload).then((json) => json);
   },
+  getUserAuctions(userId) {
+    return Api.get(`${baseURL}/user-auctions/` + userId).then((json) => json);
+  },
 };
