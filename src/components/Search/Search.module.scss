@@ -1,0 +1,16 @@
+.input {
+  margin-inline: 10px;
+  padding: 10px;
+  border: 1px solid lightgray;
+  border-radius: 4px;
+  margin-top: 5px;
+
+  &:focus:active {
+    border: 1px solid var(--primary) !important;
+  }
+
+  &:focus-visible {
+    border: 1px solid var(--primary) !important;
+    outline: none !important;
+  }
+}

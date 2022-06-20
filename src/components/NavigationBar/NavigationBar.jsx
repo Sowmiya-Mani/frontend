@@ -10,6 +10,7 @@ import {
 import jwt_decode from "jwt-decode";
 import usersService from "../../services/users";
 import styles from "./NavigationBar.module.scss";
+import Search from "../Search";
 
 function NavigationBar() {
   const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem("token"));
@@ -29,7 +30,7 @@ function NavigationBar() {
   };
 
   useEffect(() => {
-    console.log("triggered use effect");
+    console.log(window.location);
     if (isLoggedIn) {
       const jwtData = jwt_decode(localStorage.getItem("token"));
       usersService
@@ -52,7 +53,9 @@ function NavigationBar() {
           <Navbar.Brand onClick={() => navigate("/")}>
             Auction System
           </Navbar.Brand>
-          <Nav>
+          <Nav className="d-flex justify-content-center align-items-center">
+            {window.location.pathname === "/auctions" && <Search />}
+
             {isLoggedIn ? (
               <DropdownButton
                 id="dropdown-basic-button"
