@@ -19,4 +19,7 @@ export default {
   getUserAuctions(userId) {
     return Api.get(`${baseURL}/user-auctions/` + userId).then((json) => json);
   },
+  getUserBids(userId) {
+    return Api.get(`${baseURL}/user-bids/` + userId).then((json) => json);
+  },
 };

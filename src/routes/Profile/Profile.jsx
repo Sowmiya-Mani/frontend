@@ -9,6 +9,7 @@ import "./../../App.css";
 import useIsLoggedIn from "../../hooks/useIsLoggedIn";
 import jwt_decode from "jwt-decode";
 import AuctionCards from "./../AuctionList/AuctionCards";
+import BidCard from "./BidCard";
 import Tab from "./Tab";
 import styles from "./Profile.module.scss";
 
@@ -18,6 +19,7 @@ function Profile() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isOwnProfile, setIsOwnProfile] = useState(false);
   const [isFetching, setIsFetching] = useState(true);
+  const [isFetchingUserBids, setIsFetchingUserBids] = useState(true);
   const [data, setData] = useState({
     username: "",
     bio: "",
@@ -25,21 +27,30 @@ function Profile() {
   });
   const [selectedTab, setSelectedTab] = useState(0);
   const [userAuctions, setUserAuctions] = useState([]);
+  const [userBids, setUserBids] = useState([]);
 
   const toggleModal = () => {
     setShowEditProfileModal((prev) => !prev);
   };
 
   useEffect(() => {
-    if (selectedTab === 0) {
-      usersService
-        .getUserAuctions(id)
-        .then((res) => {
-          console.log(res);
-          setUserAuctions(res.data.auctions);
-        })
-        .catch((err) => console.log(err));
-    }
+    setIsFetchingUserBids(true);
+    usersService
+      .getUserAuctions(id)
+      .then((res) => {
+        console.log(res);
+        setUserAuctions(res.data.auctions);
+      })
+      .catch((err) => console.log(err));
+
+    usersService
+      .getUserBids(id)
+      .then((res) => {
+        console.log(res);
+        setUserBids(res.data.bids);
+        setIsFetchingUserBids(false);
+      })
+      .catch(() => setIsFetchingUserBids(false));
   }, [selectedTab]);
 
   useEffect(() => {
@@ -64,8 +75,6 @@ function Profile() {
         console.log(err);
       });
   }, []);
-
-  console.log(data);
 
   return (
     <div>
@@ -95,7 +104,10 @@ function Profile() {
             </div>
             <div className={styles.numbers}>
               <ProfileNumber category="auctions" number={userAuctions.length} />
-              <ProfileNumber category="bids" number={100} />
+              <ProfileNumber
+                category="bids"
+                number={isFetchingUserBids ? 0 : userBids.length}
+              />
               <ProfileNumber category="wins" number={1000000} />
             </div>
             <div className={styles["name"]}>
@@ -133,6 +145,14 @@ function Profile() {
           selectedTab === 0 &&
           userAuctions.map((auction, idx) => (
             <AuctionCards auction={auction} key={idx} />
+          ))}
+
+        {userBids.length > 0 &&
+          selectedTab === 1 &&
+          userBids.map((bid, idx) => (
+            <div key={idx}>
+              <BidCard bid={bid} />
+            </div>
           ))}
       </div>
     </div>
