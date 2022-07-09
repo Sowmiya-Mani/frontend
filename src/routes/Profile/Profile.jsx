@@ -120,7 +120,7 @@ function Profile() {
           onClick={() => setSelectedTab(1)}
         />
         <Tab
-          name="Won bids"
+          name="Won auctions"
           selected={selectedTab === 2}
           onClick={() => setSelectedTab(2)}
         />

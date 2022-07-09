@@ -5,6 +5,18 @@ import styles from "./AuctionCard.module.scss";
 
 function AuctionCard({ auction }) {
   const navigate = useNavigate();
+
+  const wasSold = () => {
+    if (
+      new Date(auction.date_expires).getTime() - new Date().getTime() > 0 &&
+      auction.bids.length > 0
+    ) {
+      return true;
+    }
+    return false;
+  };
+
+  console.log(auction);
   const { _id, item_name, bids, initial_price, pictures } = auction;
   return (
     <div className={styles.container}>
@@ -28,10 +40,23 @@ function AuctionCard({ auction }) {
         {item_name}
       </div>
       <div className={styles["current-price"]}>
-        Current price:{" "}
-        <strong>
-          {bids.length === 0 ? initial_price : bids[bids.length - 1].price} $
-        </strong>
+        {new Date(auction.date_expires).getTime() - new Date().getTime() > 0 ? (
+          <>
+            Current price:{" "}
+            <strong>
+              {bids.length === 0 ? initial_price : bids[bids.length - 1].price}{" "}
+              $
+            </strong>
+          </>
+        ) : (
+          <>
+            {wasSold() ? (
+              <div>This item was sold</div>
+            ) : (
+              <div>This auction expired and received no bids.</div>
+            )}
+          </>
+        )}
       </div>
     </div>
   );
