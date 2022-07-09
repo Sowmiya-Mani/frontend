@@ -8,6 +8,7 @@ import {
   DropdownButton,
 } from "react-bootstrap";
 import jwt_decode from "jwt-decode";
+import useWindowDimensions from "../../hooks/useWindowDimensions";
 import usersService from "../../services/users";
 import styles from "./NavigationBar.module.scss";
 import Search from "../Search";
@@ -16,17 +17,27 @@ function NavigationBar() {
   const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem("token"));
   const [isLoading, setIsLoading] = useState(true);
   const [userData, setUserData] = useState({});
+  const { width } = useWindowDimensions();
   const navigate = useNavigate();
 
   const logout = () => {
     setIsLoggedIn(false);
     setUserData({});
     localStorage.removeItem("token");
-    window.location.reload();
+    navigate("/login");
   };
 
   const goToProfile = () => {
     navigate("/users/" + userData._id);
+  };
+
+  const getDropdownContent = () => {
+    if (width > 500) {
+      return userData.first_name + " " + userData.last_name;
+    }
+    return (
+      userData.first_name.substring(0, 1) + userData.last_name.substring(0, 1)
+    );
   };
 
   useEffect(() => {
@@ -70,15 +81,24 @@ function NavigationBar() {
 
             {isLoggedIn ? (
               <DropdownButton
+                align="end"
                 id="dropdown-basic-button"
-                title={`${
-                  isLoading
-                    ? "Loading..."
-                    : userData.first_name + " " + userData.last_name
-                } `}
+                title={`${isLoading ? "Loading..." : getDropdownContent()} `}
               >
-                <Dropdown.Item onClick={goToProfile}>My profile</Dropdown.Item>
-                <Dropdown.Item onClick={logout}>Logout</Dropdown.Item>
+                <Dropdown.Item
+                  onClick={goToProfile}
+                  className={styles["dropdown-item"]}
+                >
+                  <i className={`bi bi-person-circle ${styles.icon}`}></i>My
+                  profile
+                </Dropdown.Item>
+                <Dropdown.Item
+                  onClick={logout}
+                  className={styles["dropdown-item"]}
+                >
+                  <i className={`bi bi-box-arrow-right ${styles.icon}`}></i>
+                  Logout
+                </Dropdown.Item>
               </DropdownButton>
             ) : (
               <>

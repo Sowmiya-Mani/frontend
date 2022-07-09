@@ -11,3 +11,17 @@
 .logout-btn {
   cursor: pointer;
 }
+
+.icon {
+  margin-right: 10px;
+}
+
+.dropdown-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  &:hover > i {
+    color: var(--primary);
+  }
+}
