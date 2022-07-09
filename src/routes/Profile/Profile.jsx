@@ -94,7 +94,7 @@ function Profile() {
               )}
             </div>
             <div className={styles.numbers}>
-              <ProfileNumber category="auctions" number={10} />
+              <ProfileNumber category="auctions" number={userAuctions.length} />
               <ProfileNumber category="bids" number={100} />
               <ProfileNumber category="wins" number={1000000} />
             </div>

@@ -1,0 +1,22 @@
+.tag {
+  border-radius: 4px;
+  color: white;
+  padding: 5px;
+  width: fit-content;
+  display: inline;
+}
+
+.sold {
+  @extend .tag;
+  background-color: #4df083;
+}
+
+.expired {
+  @extend .tag;
+  background-color: crimson;
+}
+
+.active {
+  @extend .tag;
+  background-color: #fcba03;
+}

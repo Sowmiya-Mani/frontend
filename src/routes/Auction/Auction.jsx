@@ -46,6 +46,7 @@ function Auction() {
         setError("You have to bid more than the initial price.");
         return false;
       }
+      return true;
     } else if (bid <= data.bids[data.bids.length - 1].price) {
       setError("You have to bid more than the current bid.");
       return false;
@@ -63,7 +64,6 @@ function Auction() {
   };
 
   const onClick = (e) => {
-    console.log("Clicked on button");
     const validBid = validateBid();
     if (validBid) {
       e.preventDefault();

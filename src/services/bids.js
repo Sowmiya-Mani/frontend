@@ -7,4 +7,8 @@ export default {
   postNewBid(payload) {
     return Api.post(`${baseURL}/bids`, payload).then((json) => json);
   },
+
+  getBidById(id) {
+    return Api.get(`${baseURL}/bid/` + id).then((json) => json);
+  },
 };
