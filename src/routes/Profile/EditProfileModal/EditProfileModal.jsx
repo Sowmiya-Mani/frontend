@@ -18,6 +18,8 @@ function EditProfileModal({ userData, showModal, closeHandler }) {
 
   const saveChanges = () => {
     setLoading(true);
+    console.log(changed);
+    console.log(updatedUserData);
     if (updatedUserData.profile_picture) {
       console.log("Im here");
       useUploadToStorage(
@@ -26,6 +28,17 @@ function EditProfileModal({ userData, showModal, closeHandler }) {
         onSuccessUpload,
         onFailUpload
       );
+    } else if (changed) {
+      usersService
+        .updateUser(id, updatedUserData)
+        .then((res) => {
+          console.log(res.data);
+          window.location.reload();
+        })
+        .catch((err) => {
+          setLoading(false);
+          console.log(err);
+        });
     }
   };
 
