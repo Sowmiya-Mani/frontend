@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Button } from "react-bootstrap";
 import usersService from "../../services/users";
 import ProfileNumber from "./ProfileNumber";
 import EditProfileModal from "./EditProfileModal";
+import EditProfileButton from "./EditProfileButton";
 import { Spinner } from "react-bootstrap";
 import "./../../App.css";
 import useIsLoggedIn from "../../hooks/useIsLoggedIn";
+import useWindowDimensions from "../../hooks/useWindowDimensions";
 import jwt_decode from "jwt-decode";
 import AuctionCards from "./../AuctionList/AuctionCards";
 import BidCard from "./BidCard";
@@ -28,6 +29,7 @@ function Profile() {
   const [selectedTab, setSelectedTab] = useState(0);
   const [userAuctions, setUserAuctions] = useState([]);
   const [userBids, setUserBids] = useState([]);
+  const { width } = useWindowDimensions();
 
   const toggleModal = () => {
     setShowEditProfileModal((prev) => !prev);
@@ -76,6 +78,8 @@ function Profile() {
       });
   }, []);
 
+  console.log(width);
+
   return (
     <div>
       <EditProfileModal
@@ -98,29 +102,34 @@ function Profile() {
               <div className={styles.username}>{data.username}</div>
               {isLoggedIn && isOwnProfile && (
                 <div>
-                  <Button onClick={toggleModal} variant="primary">
-                    Edit profile
-                  </Button>
+                  <EditProfileButton
+                    onClickHandler={toggleModal}
+                    screenWidth={width}
+                  />
                 </div>
               )}
             </div>
-            <div className={styles.numbers}>
-              <ProfileNumber
-                onClick={() => setSelectedTab(0)}
-                category="auctions"
-                number={userAuctions.length}
-              />
-              <ProfileNumber
-                onClick={() => setSelectedTab(1)}
-                category="bids"
-                number={isFetchingUserBids ? 0 : userBids.length}
-              />
-              <ProfileNumber
-                onClick={() => setSelectedTab(2)}
-                category="wins"
-                number={1000000}
-              />
-            </div>
+
+            {width > 500 && (
+              <div className={styles.numbers}>
+                <ProfileNumber
+                  onClick={() => setSelectedTab(0)}
+                  category="auctions"
+                  number={userAuctions.length}
+                />
+                <ProfileNumber
+                  onClick={() => setSelectedTab(1)}
+                  category="bids"
+                  number={isFetchingUserBids ? 0 : userBids.length}
+                />
+                <ProfileNumber
+                  onClick={() => setSelectedTab(2)}
+                  category="wins"
+                  number={1000000}
+                />
+              </div>
+            )}
+
             <div className={styles["name"]}>
               <strong>
                 {data.first_name} {data.last_name}

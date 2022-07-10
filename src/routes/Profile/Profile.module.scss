@@ -1,7 +1,7 @@
 .upper-div {
   margin-left: 100px;
-  height: 40vh;
   display: flex;
+  margin-bottom: 30px;
 }
 
 .horizontal-line {
@@ -34,11 +34,12 @@
 .first-row {
   display: flex;
   height: 50px;
-  justify-content: space-around;
   align-items: center;
 }
 
 .username {
+  margin-left: 10px;
+  margin-right: 5px;
   font-size: 30px;
 }
 
@@ -84,7 +85,7 @@
   }
 }
 
-@media (max-width: 500px) {
+@media (max-width: 600px) {
   .profile-pic {
     margin: 40px 10px 10px 20px;
     width: 70px;
