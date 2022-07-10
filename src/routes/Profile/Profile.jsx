@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import Button from "../../components/Button";
+import { Button } from "react-bootstrap";
 import usersService from "../../services/users";
 import ProfileNumber from "./ProfileNumber";
 import EditProfileModal from "./EditProfileModal";
@@ -98,17 +98,28 @@ function Profile() {
               <div className={styles.username}>{data.username}</div>
               {isLoggedIn && isOwnProfile && (
                 <div>
-                  <Button onClick={toggleModal} value="Edit profile" />
+                  <Button onClick={toggleModal} variant="primary">
+                    Edit profile
+                  </Button>
                 </div>
               )}
             </div>
             <div className={styles.numbers}>
-              <ProfileNumber category="auctions" number={userAuctions.length} />
               <ProfileNumber
+                onClick={() => setSelectedTab(0)}
+                category="auctions"
+                number={userAuctions.length}
+              />
+              <ProfileNumber
+                onClick={() => setSelectedTab(1)}
                 category="bids"
                 number={isFetchingUserBids ? 0 : userBids.length}
               />
-              <ProfileNumber category="wins" number={1000000} />
+              <ProfileNumber
+                onClick={() => setSelectedTab(2)}
+                category="wins"
+                number={1000000}
+              />
             </div>
             <div className={styles["name"]}>
               <strong>
