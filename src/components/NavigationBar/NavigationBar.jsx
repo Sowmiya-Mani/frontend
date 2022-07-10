@@ -58,7 +58,7 @@ function NavigationBar() {
   }, [isLoggedIn]);
 
   return (
-    <div>
+    <div className={styles.container}>
       <Navbar className={styles.navbar}>
         <Container className={styles["navbar-container"]}>
           <Navbar.Brand
@@ -81,6 +81,7 @@ function NavigationBar() {
 
             {isLoggedIn ? (
               <DropdownButton
+                variant="outline-primary"
                 align="end"
                 id="dropdown-basic-button"
                 title={`${isLoading ? "Loading..." : getDropdownContent()} `}

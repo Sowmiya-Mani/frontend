@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { Row, Col, Spinner, Container } from "react-bootstrap";
+import { Spinner } from "react-bootstrap";
 import auctionsService from "./../../services/auctions";
-import Button from "../../components/Button";
+import { Button } from "react-bootstrap";
 import usersService from "../../services/users";
 import useIsLoggedIn from "../../hooks/useIsLoggedIn";
 import calculateRemainingTime from "../../utils/utils";
@@ -136,7 +136,7 @@ function Auction() {
           )}
         </div>
       )}
-      <Container className={`${styles["layout-container"]} m-0`}>
+      <div className={`${styles["layout-container"]}`}>
         {isLoading ? (
           <Spinner animation="border" variant="primary" />
         ) : (
@@ -146,94 +146,97 @@ function Auction() {
               handleClose={toggleImageModal}
               pictures={data.pictures}
             />
-            <Row className="w-100 m-10">
-              <Col
-                className="justify-content-center d-flex flex-column align-items-center p-0"
-                xs={12}
-                sm={5}
+            <div>
+              <div
+                className={styles["image-container"]}
+                onClick={toggleImageModal}
+                style={{
+                  backgroundImage:
+                    data.pictures?.length > 0 &&
+                    `url("${data.pictures[0].img_url}")`,
+                }}
               >
-                <div
-                  className={styles["image-container"]}
-                  onClick={toggleImageModal}
-                  style={{
-                    backgroundImage:
-                      data.pictures?.length > 0 &&
-                      `url("${data.pictures[0].img_url}")`,
-                  }}
-                >
-                  {data.pictures.length === 0 && (
-                    <i className={`bi bi-image ${styles["image-icon"]}`}></i>
-                  )}
-                </div>
-                <div>Click to see all photos</div>
-              </Col>
-              <Col xs={12} sm={5}>
-                <div className={styles.info}>
-                  <div className={styles.title}>{data.item_name}</div>
-                  <div className={styles["price-container"]}>
-                    <div className={styles.price}>
-                      US ${" "}
-                      {data.bids.length === 0
-                        ? data.initial_price
-                        : data.bids[data.bids.length - 1].price}
-                    </div>
-                  </div>
-                  {isLoggedIn && (
-                    <div className={styles["place-bid-wrapper"]}>
-                      Place your own bid: <br />
-                      <input
-                        onChange={onChange}
-                        type="text"
-                        value={bid}
-                        name="bid"
-                        placeholder="Enter a larger bid than the current price"
-                      />
-                      <Button value="Place bid" onClick={onClick} />
-                    </div>
-                  )}
-                  <div>
-                    Time remaining:{" "}
-                    {timeRemaining.startsWith("-")
-                      ? `EXPIRED on ${data.date_ends.substring(0, 10)}`
-                      : timeRemaining}
-                  </div>
-                </div>
-              </Col>
-              <Col xs={12} sm={2}>
-                {loadingUserData ? (
-                  <Spinner animation="border" variant="primary" />
-                ) : (
-                  <div>
-                    Seller information: <br />
-                    <div className={styles["seller-info-container"]}>
-                      <div
-                        className={styles["seller-profile-picture"]}
-                        style={{
-                          backgroundImage: `url('${userData.profile_picture}')`,
-                        }}
-                      ></div>
-                      <div
-                        className={styles.seller}
-                        onClick={() => navigate("/users/" + userData._id)}
-                      >
-                        {userData.username}{" "}
-                      </div>
-                    </div>
-                  </div>
+                {data.pictures.length === 0 && (
+                  <i className={`bi bi-image ${styles["image-icon"]}`}></i>
                 )}
-              </Col>
-            </Row>
-            <Row className="w-100">
-              <Col xs={12} sm={10}>
-                <div className={styles.description}>
-                  Description: <br />
-                  {data.item_description}
+              </div>
+
+              <div className={styles["all-photos-message"]}>
+                Click to see all photos
+              </div>
+            </div>
+
+            <div className={styles.info}>
+              <h1 className={styles.title}>{data.item_name}</h1>
+              <div className={styles["price-container"]}>
+                <div className={styles.price}>
+                  US ${" "}
+                  {data.bids.length === 0
+                    ? data.initial_price
+                    : data.bids[data.bids.length - 1].price}
                 </div>
-              </Col>
-            </Row>
+              </div>
+              {isLoggedIn && (
+                <div className={styles["place-bid-wrapper"]}>
+                  Place your own bid: <br />
+                  <div className={styles["input-group"]}>
+                    <input
+                      onChange={onChange}
+                      className={styles.input}
+                      type="text"
+                      value={bid}
+                      name="bid"
+                      placeholder="Enter a larger bid than the current price"
+                    />
+                    <Button
+                      className={styles.button}
+                      variant="outline-primary"
+                      onClick={onClick}
+                    >
+                      Place bid
+                    </Button>
+                  </div>
+                </div>
+              )}
+              <div>
+                Time remaining:{" "}
+                {timeRemaining.startsWith("-")
+                  ? `EXPIRED on ${data.date_ends.substring(0, 10)}`
+                  : timeRemaining}
+              </div>
+            </div>
+
+            <div className={styles.description}>
+              <h5>Description</h5>
+              {data.item_description}
+            </div>
+
+            <div>
+              {loadingUserData ? (
+                <Spinner animation="border" variant="primary" />
+              ) : (
+                <div>
+                  <h5 style={{ textAlign: "center" }}>Seller information</h5>
+                  <div className={styles["seller-info-container"]}>
+                    <div
+                      className={styles["seller-profile-picture"]}
+                      style={{
+                        backgroundImage: `url('${userData.profile_picture}')`,
+                      }}
+                    ></div>
+                    <div
+                      className={styles.seller}
+                      onClick={() => navigate("/users/" + userData._id)}
+                    >
+                      {userData.username}{" "}
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
           </>
         )}
-      </Container>
+      </div>
     </>
   );
 }

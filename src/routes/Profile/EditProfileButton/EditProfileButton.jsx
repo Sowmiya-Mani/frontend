@@ -6,7 +6,7 @@ import { Button } from "react-bootstrap";
 function EditProfileButton({ screenWidth, onClickHandler }) {
   return (
     <div>
-      <Button onClick={onClickHandler} variant="primary">
+      <Button onClick={onClickHandler} variant="outline-primary">
         <i className="bi bi-pencil-square"></i>
         {screenWidth > 500 && (
           <div style={{ display: "inline", marginLeft: "5px" }}>

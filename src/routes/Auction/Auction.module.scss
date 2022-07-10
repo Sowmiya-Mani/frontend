@@ -1,8 +1,16 @@
 .layout-container {
-  height: calc(100vh - 56px);
+  margin-inline: auto;
+  width: 80vw;
+  border-left: 1px solid #d3d3d3;
+  border-right: 1px solid #d3d3d3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .image-container {
+  margin-top: 10px;
+  margin-inline: auto;
   display: flex;
   align-items: center;
   cursor: pointer;
@@ -12,8 +20,7 @@
   background-size: cover;
   background-repeat: no-repeat;
   aspect-ratio: 8/5;
-  width: 90%;
-  height: auto;
+  width: 500px;
   border-radius: 5px 5px 5px 5px;
 
   box-shadow: 3px 2px 6px -1px rgba(128, 128, 128, 0.7);
@@ -26,21 +33,28 @@
 }
 
 .price {
-  margin-top: -12px;
   color: var(--primary);
   font-weight: 500;
   font-size: 50px;
 }
 
 .title {
-  color: black;
+  margin-top: 10px;
+  text-align: center;
   font-weight: 500;
-  font-size: 25px;
+}
+
+.all-photos-message {
+  text-align: center;
+  width: 100%;
+  padding-bottom: 10px;
 }
 
 .seller-info-container {
+  width: 500px;
   display: flex;
   align-items: center;
+  justify-content: center;
 }
 
 .seller {
@@ -66,12 +80,76 @@
 }
 
 .description {
-  margin-top: 10px;
-  margin-left: 10px;
+  padding: 16px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  width: 100%;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #d3d3d3;
 }
 
 .image-icon {
   color: var(--primary);
   margin-inline: auto;
   font-size: 50px;
+}
+
+.input {
+  padding: 10px;
+  border: 1px solid lightgray;
+  border-radius: 4px;
+  margin-top: 5px;
+  width: 400px;
+  margin-right: 10px;
+  margin-bottom: 5px;
+
+  &:focus:active {
+    border: 1px solid var(--primary) !important;
+  }
+
+  &:focus-visible {
+    border: 1px solid var(--primary) !important;
+    outline: none !important;
+  }
+}
+
+.info {
+  padding: 16px;
+  width: 100%;
+  border-top: 1px solid #d3d3d3;
+  border-bottom: 1px solid #d3d3d3;
+}
+
+.input-group {
+  display: flex;
+  align-items: center;
+}
+
+@media (max-width: 600px) {
+  .layout-container {
+    width: auto;
+    border: none;
+  }
+
+  .price {
+    font-size: 34px;
+  }
+
+  .seller-info-container {
+    width: auto;
+    max-width: none;
+  }
+
+  .input {
+    width: 100%;
+  }
+
+  .image-container {
+    height: auto;
+    width: 300px;
+  }
+
+  .input-group {
+    flex-direction: column;
+  }
 }
