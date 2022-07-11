@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from "react";
 import auctionsService from "../../services/auctions";
 import AuctionCard from "./AuctionCards/AuctionCard";
-import useIsLoggedIn from "../../hooks/useIsLoggedIn";
 import Button from "../../components/Button";
 import ErrorAlert from "../../components/Alerts/ErrorAlert";
 import SuccessAlert from "../../components/Alerts/SuccessAlert";
 import AddAuctionModal from "./AddAuctionModal/AddAuctionModal";
+import useIsLoggedIn from "../../hooks/useIsLoggedIn";
 import jwtDecode from "jwt-decode";
+import PropTypes from "prop-types";
 import styles from "./AuctionList.module.scss";
 
-function AuctionList() {
+function AuctionList({ search, searchResults }) {
   const PAGE_SIZE = 6;
   const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
@@ -18,6 +19,11 @@ function AuctionList() {
   const [exhausted, setExhausted] = useState(false);
   const [showAddAuctionModal, setShowAddAuctionModal] = useState(false);
   const isLoggedIn = useIsLoggedIn();
+
+  useEffect(() => {
+    console.log(searchResults);
+    setAuctions(searchResults);
+  }, [searchResults]);
 
   //   const [search, setSearch] = useState("");
 
@@ -29,7 +35,7 @@ function AuctionList() {
   const getAuctions = () => {
     auctionsService
       .getActiveAuctions({
-        search: "",
+        search: search,
         skip: (page - 1) * PAGE_SIZE,
         limit: PAGE_SIZE,
       })
@@ -88,7 +94,6 @@ function AuctionList() {
         console.log(err.response.data.error);
         setError(err.response.data.error);
         setLoading(false);
-        // setError(err.error);
       });
   };
 
@@ -133,5 +138,10 @@ function AuctionList() {
     </div>
   );
 }
+
+AuctionList.propTypes = {
+  search: PropTypes.string.isRequired,
+  searchResults: PropTypes.array.isRequired,
+};
 
 export default AuctionList;

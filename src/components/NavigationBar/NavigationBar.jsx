@@ -10,10 +10,11 @@ import {
 import jwt_decode from "jwt-decode";
 import useWindowDimensions from "../../hooks/useWindowDimensions";
 import usersService from "../../services/users";
-import styles from "./NavigationBar.module.scss";
+import PropTypes from "prop-types";
 import Search from "../Search";
+import styles from "./NavigationBar.module.scss";
 
-function NavigationBar() {
+function NavigationBar({ search, setSearch, setSearching, setSearchResults }) {
   const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem("token"));
   const [isLoading, setIsLoading] = useState(true);
   const [userData, setUserData] = useState({});
@@ -77,7 +78,14 @@ function NavigationBar() {
             </div>
           </Navbar.Brand>
           <Nav className="d-flex justify-content-center align-items-center">
-            {window.location.pathname === "/auctions" && <Search />}
+            {window.location.pathname === "/auctions" && (
+              <Search
+                search={search}
+                setSearch={setSearch}
+                setSearching={setSearching}
+                setSearchResults={setSearchResults}
+              />
+            )}
 
             {isLoggedIn ? (
               <DropdownButton
@@ -115,5 +123,12 @@ function NavigationBar() {
     </div>
   );
 }
+
+NavigationBar.propTypes = {
+  search: PropTypes.string.isRequired,
+  setSearch: PropTypes.func.isRequired,
+  setSearching: PropTypes.func.isRequired,
+  setSearchResults: PropTypes.func.isRequired,
+};
 
 export default NavigationBar;
