@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import auctionsService from "../../services/auctions";
 import AuctionCard from "./AuctionCards/AuctionCard";
-import Button from "../../components/Button";
+import { Button } from "react-bootstrap";
 import ErrorAlert from "../../components/Alerts/ErrorAlert";
 import SuccessAlert from "../../components/Alerts/SuccessAlert";
 import AddAuctionModal from "./AddAuctionModal/AddAuctionModal";
+import SortDropdown from "./SortDropdown";
 import useIsLoggedIn from "../../hooks/useIsLoggedIn";
 import jwtDecode from "jwt-decode";
 import PropTypes from "prop-types";
@@ -112,13 +113,33 @@ function AuctionList({ search, searchResults }) {
         addAuctionHandler={addNewAuction}
         userId={jwtDecode(localStorage.getItem("token")).uid}
       />
-      {isLoggedIn && (
-        <div className={styles["start-auction-btn"]}>
-          <Button value="Start an auction" onClick={toggleAddModal} />
-        </div>
-      )}
 
-      <div className={styles["grid-container"]}>
+      <div className={styles["button-group"]}>
+        {isLoggedIn && (
+          <Button
+            variant="outline-primary"
+            onClick={toggleAddModal}
+            style={{ marginLeft: "7.5%" }}
+          >
+            <i
+              className="bi bi-file-earmark-plus"
+              style={{ marginRight: "10px" }}
+            ></i>
+            Start an auction
+          </Button>
+        )}
+        <SortDropdown />
+      </div>
+
+      <div
+        className={styles["grid-container"]}
+        style={{
+          gridTemplateColumns:
+            auctions.length > 1
+              ? "repeat(auto-fit, minmax(250px, 1fr))"
+              : "repeat(auto-fit, minmax(250px, calc(85% / 3)))",
+        }}
+      >
         {auctions.length > 0 ? (
           auctions.map((auction, index) => (
             <AuctionCard key={index} auction={auction} />
@@ -130,7 +151,10 @@ function AuctionList({ search, searchResults }) {
 
       {!exhausted ? (
         <div className={styles.button}>
-          <Button onClick={loadMore} value="Load more..." />
+          <Button onClick={loadMore} variant="outline-primary">
+            <i className="bi bi-caret-down" style={{ marginRight: "5px" }}></i>
+            Load more
+          </Button>
         </div>
       ) : (
         <div className={styles.message}>Thats it for now</div>

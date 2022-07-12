@@ -1,0 +1,13 @@
+.dropdown-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  &:hover > i {
+    color: var(--primary);
+  }
+}
+
+.icon {
+  margin-right: 10px;
+}
