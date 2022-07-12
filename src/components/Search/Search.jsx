@@ -3,7 +3,14 @@ import PropTypes from "prop-types";
 import auctionsService from "../../services/auctions";
 import { Button, FormControl, InputGroup } from "react-bootstrap";
 
-function Search({ search, setSearch, setSearching, setSearchResults }) {
+function Search({
+  search,
+  setSearch,
+  setSearching,
+  setSearchResults,
+  sort,
+  direction,
+}) {
   const PAGE_SIZE = 6;
 
   const onChange = (e) => {
@@ -20,6 +27,8 @@ function Search({ search, setSearch, setSearching, setSearchResults }) {
         search: search,
         skip: 0,
         limit: PAGE_SIZE,
+        sort: sort,
+        direction: direction,
       })
       .then((res) => {
         console.log(res.data);
@@ -55,6 +64,8 @@ Search.propTypes = {
   setSearch: PropTypes.func.isRequired,
   setSearching: PropTypes.func.isRequired,
   setSearchResults: PropTypes.func.isRequired,
+  sort: PropTypes.string.isRequired,
+  direction: PropTypes.string.isRequired,
 };
 
 export default Search;

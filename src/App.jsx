@@ -14,8 +14,17 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 
 function App() {
   useSocketio();
-  const { search, setSearch, searchResults, setSearchResults, setSearching } =
-    useSearch();
+  const {
+    search,
+    setSearch,
+    searchResults,
+    setSearchResults,
+    setSearching,
+    sort,
+    setSort,
+    direction,
+    setDirection,
+  } = useSearch();
 
   return (
     <div>
@@ -24,6 +33,8 @@ function App() {
         setSearch={setSearch}
         setSearching={setSearching}
         setSearchResults={setSearchResults}
+        sort={sort}
+        direction={direction}
       />
       <Routes>
         <Route path="/" exact element={<Home />} />
@@ -31,7 +42,14 @@ function App() {
           path="/auctions"
           exact
           element={
-            <AuctionList search={search} searchResults={searchResults} />
+            <AuctionList
+              search={search}
+              searchResults={searchResults}
+              sort={sort}
+              setSort={setSort}
+              direction={direction}
+              setDirection={setDirection}
+            />
           }
         />
         <Route path="/login" exact element={<Login />} />

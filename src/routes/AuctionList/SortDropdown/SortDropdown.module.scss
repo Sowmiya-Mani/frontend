@@ -8,6 +8,12 @@
   }
 }
 
+.active-dropdown-item {
+  &:hover > i {
+    color: white;
+  }
+}
+
 .icon {
   margin-right: 10px;
 }

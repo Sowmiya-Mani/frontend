@@ -14,7 +14,14 @@ import PropTypes from "prop-types";
 import Search from "../Search";
 import styles from "./NavigationBar.module.scss";
 
-function NavigationBar({ search, setSearch, setSearching, setSearchResults }) {
+function NavigationBar({
+  search,
+  setSearch,
+  setSearching,
+  setSearchResults,
+  sort,
+  direction,
+}) {
   const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem("token"));
   const [isLoading, setIsLoading] = useState(true);
   const [userData, setUserData] = useState({});
@@ -84,6 +91,8 @@ function NavigationBar({ search, setSearch, setSearching, setSearchResults }) {
                 setSearch={setSearch}
                 setSearching={setSearching}
                 setSearchResults={setSearchResults}
+                sort={sort}
+                direction={direction}
               />
             )}
 
@@ -129,6 +138,8 @@ NavigationBar.propTypes = {
   setSearch: PropTypes.func.isRequired,
   setSearching: PropTypes.func.isRequired,
   setSearchResults: PropTypes.func.isRequired,
+  sort: PropTypes.string.isRequired,
+  direction: PropTypes.string.isRequired,
 };
 
 export default NavigationBar;

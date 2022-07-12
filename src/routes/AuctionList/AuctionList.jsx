@@ -11,7 +11,14 @@ import jwtDecode from "jwt-decode";
 import PropTypes from "prop-types";
 import styles from "./AuctionList.module.scss";
 
-function AuctionList({ search, searchResults }) {
+function AuctionList({
+  search,
+  searchResults,
+  setSort,
+  setDirection,
+  sort,
+  direction,
+}) {
   const PAGE_SIZE = 6;
   const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
@@ -26,8 +33,6 @@ function AuctionList({ search, searchResults }) {
     setAuctions(searchResults);
   }, [searchResults]);
 
-  //   const [search, setSearch] = useState("");
-
   const resetErrorAndSuccess = () => {
     setError("");
     setSuccess("");
@@ -39,6 +44,8 @@ function AuctionList({ search, searchResults }) {
         search: search,
         skip: (page - 1) * PAGE_SIZE,
         limit: PAGE_SIZE,
+        sort: sort,
+        direction: direction,
       })
       .then((res) => {
         if (res.error) {
@@ -102,6 +109,10 @@ function AuctionList({ search, searchResults }) {
     getAuctions();
   }, [page]);
 
+  useEffect(() => {
+    getAuctions();
+  }, [sort, direction]);
+
   return (
     <div className={styles["list-wrapper"]}>
       {error.length > 0 && <ErrorAlert message={error} setMessage={setError} />}
@@ -128,7 +139,11 @@ function AuctionList({ search, searchResults }) {
             Start an auction
           </Button>
         )}
-        <SortDropdown />
+        <SortDropdown
+          setDirection={setDirection}
+          setSort={setSort}
+          direction={direction}
+        />
       </div>
 
       <div
@@ -166,6 +181,10 @@ function AuctionList({ search, searchResults }) {
 AuctionList.propTypes = {
   search: PropTypes.string.isRequired,
   searchResults: PropTypes.array.isRequired,
+  sort: PropTypes.string.isRequired,
+  setSort: PropTypes.func.isRequired,
+  direction: PropTypes.string.isRequired,
+  setDirection: PropTypes.func.isRequired,
 };
 
 export default AuctionList;
