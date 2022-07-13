@@ -27,16 +27,6 @@ function Auction() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
-  const socket = io("http://localhost:3000");
-
-  socket.on("postedBid", (arg) => {
-    if (arg._id === id) {
-      setData(arg);
-    }
-  });
-
-  console.log(data);
-
   const validateBid = () => {
     console.log("Validating a bid");
     if (isNaN(bid)) {
@@ -72,8 +62,7 @@ function Auction() {
           price: bid,
           auction_id: id,
         })
-        .then((res) => {
-          console.log(res.data);
+        .then(() => {
           setSuccess("Successfully posted a bid.");
           setBid("");
         })
@@ -84,12 +73,21 @@ function Auction() {
   };
 
   useEffect(() => {
+    const socket = io("http://localhost:3000");
+
+    socket.on("postedBid", (arg) => {
+      if (arg._id === id) {
+        setData(arg);
+      }
+    });
+
+    socket.emit("open auction", id);
+
     setIsLoggedIn(useIsLoggedIn());
 
     auctionsService
       .getAuctionById({ id })
       .then((res) => {
-        console.log(res.data);
         setData(res.data.data);
         setIsLoading(false);
       })
@@ -97,9 +95,11 @@ function Auction() {
         console.log(err);
         setIsLoading(false);
       });
-  }, []);
 
-  console.log(error);
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {

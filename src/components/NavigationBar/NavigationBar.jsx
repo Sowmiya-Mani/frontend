@@ -49,7 +49,6 @@ function NavigationBar({
   };
 
   useEffect(() => {
-    console.log(window.location);
     if (isLoggedIn) {
       const jwtData = jwt_decode(localStorage.getItem("token"));
       usersService

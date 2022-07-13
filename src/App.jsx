@@ -7,13 +7,11 @@ import AuctionList from "./routes/AuctionList";
 import Auction from "./routes/Auction";
 import Profile from "./routes/Profile";
 import NavigationBar from "./components/NavigationBar";
-import useSocketio from "./hooks/useSocketio";
 import useSearch from "./hooks/useSearch";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 
 function App() {
-  useSocketio();
   const {
     search,
     setSearch,
