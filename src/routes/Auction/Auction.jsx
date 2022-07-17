@@ -176,7 +176,7 @@ function Auction() {
                     : data.bids[data.bids.length - 1].price}
                 </div>
               </div>
-              {isLoggedIn && (
+              {isLoggedIn && !timeRemaining.startsWith("-") && (
                 <div className={styles["place-bid-wrapper"]}>
                   Place your own bid: <br />
                   <div className={styles["input-group"]}>
