@@ -81,6 +81,10 @@ function Auction() {
       }
     });
 
+    socket.on("auction expired", (winnerUsername) => {
+      setSuccess("Auction just expired. The winner is " + winnerUsername);
+    });
+
     socket.emit("open auction", id);
 
     setIsLoggedIn(useIsLoggedIn());
