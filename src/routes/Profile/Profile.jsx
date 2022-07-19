@@ -21,12 +21,16 @@ function Profile() {
   const [isOwnProfile, setIsOwnProfile] = useState(false);
   const [isFetching, setIsFetching] = useState(true);
   const [isFetchingUserBids, setIsFetchingUserBids] = useState(true);
+  const [isFetchingWonUserAuctions, setIsFetchingWonUserAuctions] =
+    useState(true);
+
   const [data, setData] = useState({
     username: "",
     bio: "",
     profile_picture: "",
   });
   const [selectedTab, setSelectedTab] = useState(0);
+  const [userWonAuctions, setUserWonAuctions] = useState([]);
   const [userAuctions, setUserAuctions] = useState([]);
   const [userBids, setUserBids] = useState([]);
   const { width } = useWindowDimensions();
@@ -34,26 +38,6 @@ function Profile() {
   const toggleModal = () => {
     setShowEditProfileModal((prev) => !prev);
   };
-
-  useEffect(() => {
-    setIsFetchingUserBids(true);
-    usersService
-      .getUserAuctions(id)
-      .then((res) => {
-        console.log(res);
-        setUserAuctions(res.data.auctions);
-      })
-      .catch((err) => console.log(err));
-
-    usersService
-      .getUserBids(id)
-      .then((res) => {
-        console.log(res);
-        setUserBids(res.data.bids);
-        setIsFetchingUserBids(false);
-      })
-      .catch(() => setIsFetchingUserBids(false));
-  }, [selectedTab]);
 
   useEffect(() => {
     if (useIsLoggedIn()) {
@@ -76,9 +60,39 @@ function Profile() {
         setIsFetching(false);
         console.log(err);
       });
-  }, []);
 
-  console.log(width);
+    usersService
+      .getUserAuctions(id)
+      .then((res) => {
+        console.log(res);
+        setUserAuctions(res.data.auctions);
+      })
+      .catch((err) => console.log(err));
+
+    setIsFetchingUserBids(true);
+    usersService
+      .getUserBids(id)
+      .then((res) => {
+        console.log(res);
+        setUserBids(res.data.bids);
+        setIsFetchingUserBids(false);
+      })
+      .catch(() => setIsFetchingUserBids(false));
+
+    setIsFetchingWonUserAuctions(true);
+    usersService
+      .getUsersWonAuctions(id)
+      .then((res) => {
+        console.log("User's won auctions...");
+        console.log(res);
+        setUserWonAuctions(res.data.won_auctions);
+        setIsFetchingWonUserAuctions(false);
+      })
+      .catch((err) => {
+        setIsFetchingWonUserAuctions(false);
+        console.log(err);
+      });
+  }, []);
 
   return (
     <div>
@@ -125,7 +139,9 @@ function Profile() {
                 <ProfileNumber
                   onClick={() => setSelectedTab(2)}
                   category="wins"
-                  number={1000000}
+                  number={
+                    isFetchingWonUserAuctions ? 0 : userWonAuctions.length
+                  }
                 />
               </div>
             )}
@@ -173,6 +189,12 @@ function Profile() {
             <div key={idx}>
               <BidCard bid={bid} />
             </div>
+          ))}
+
+        {userAuctions.length > 0 &&
+          selectedTab === 2 &&
+          userWonAuctions.map((auction, idx) => (
+            <AuctionCards auction={auction} key={idx} />
           ))}
       </div>
     </div>
