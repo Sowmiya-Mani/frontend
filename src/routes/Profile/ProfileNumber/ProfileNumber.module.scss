@@ -1,3 +1,9 @@
 .number {
   margin: 10px;
+
+  &:hover {
+    text-decoration: underline;
+    cursor: pointer;
+    color: var(--bs-primary);
+  }
 }
