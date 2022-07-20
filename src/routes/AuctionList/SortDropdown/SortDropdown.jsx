@@ -26,8 +26,6 @@ function SortDropdown({ direction, setDirection, setSort }) {
     return;
   };
 
-  console.log(active);
-
   const onClick = (sortBy) => {
     if (direction === "-1") {
       setDirection("1");
