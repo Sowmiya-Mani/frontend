@@ -46,6 +46,12 @@ function Auction() {
     }
   };
 
+  const getInitials = () => {
+    return (
+      userData.first_name.substring(0, 1) + userData.last_name.substring(0, 1)
+    ).toUpperCase();
+  };
+
   const toggleImageModal = () => {
     setShowImageModal((prev) => !prev);
   };
@@ -255,7 +261,9 @@ function Auction() {
                       }}
                     >
                       {userData.profile_picture.length === 0 && (
-                        <div className={styles["initials"]}>AM</div>
+                        <div className={styles["initials"]}>
+                          {getInitials()}
+                        </div>
                       )}
                     </div>
                     <div
