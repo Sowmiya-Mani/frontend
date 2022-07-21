@@ -8,7 +8,7 @@ function SortDropdown({ direction, setDirection, setSort }) {
     "initial_price",
     "bid_count",
     "current_price",
-    "created_at",
+    "date_added",
   ];
   const [active, setActive] = useState(0);
 
@@ -82,7 +82,7 @@ function SortDropdown({ direction, setDirection, setSort }) {
         <i className={`bi bi-currency-dollar ${styles.icon}`}></i>Current price
       </Dropdown.Item>
       <Dropdown.Item
-        onClick={() => onClick("created_at")}
+        onClick={() => onClick("date_added")}
         className={
           active === 3
             ? styles["active-dropdown-item"]
