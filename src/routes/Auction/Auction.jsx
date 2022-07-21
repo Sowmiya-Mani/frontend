@@ -88,7 +88,7 @@ function Auction() {
   }, [data]);
 
   useEffect(() => {
-    const socket = io("http://localhost:3000");
+    const socket = io("https://aceio.herokuapp.com");
 
     socket.on("postedBid", (arg) => {
       if (arg._id === id) {
