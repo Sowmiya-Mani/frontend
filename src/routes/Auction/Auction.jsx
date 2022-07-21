@@ -26,6 +26,7 @@ function Auction() {
   const [bid, setBid] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [winner, setWinner] = useState("");
 
   const validateBid = () => {
     console.log("Validating a bid");
@@ -71,6 +72,20 @@ function Auction() {
         });
     }
   };
+
+  useEffect(() => {
+    if (data?.expired) {
+      console.log(data.won_by);
+      usersService
+        .getUserById({ id: data.won_by })
+        .then((res) => {
+          setWinner(res.data.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }, [data]);
 
   useEffect(() => {
     const socket = io("https://aceio.herokuapp.com");
@@ -208,6 +223,17 @@ function Auction() {
                   ? `EXPIRED on ${data.date_ends.substring(0, 10)}`
                   : timeRemaining}
               </div>
+              {data.expired && (
+                <div>
+                  Winner:{" "}
+                  <span
+                    className={styles["winner-span"]}
+                    onClick={() => navigate("/users/" + winner._id)}
+                  >
+                    {winner.username}
+                  </span>
+                </div>
+              )}
             </div>
 
             <div className={styles.description}>
