@@ -125,6 +125,14 @@
   align-items: center;
 }
 
+.initials {
+  font-size: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
 .winner-span {
   &:hover {
     color: var(--bs-primary);

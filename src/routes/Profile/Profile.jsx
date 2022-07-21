@@ -35,6 +35,8 @@ function Profile() {
   const [userBids, setUserBids] = useState([]);
   const { width } = useWindowDimensions();
 
+  console.log(data.profile_picture);
+
   const toggleModal = () => {
     setShowEditProfileModal((prev) => !prev);
   };
@@ -110,7 +112,11 @@ function Profile() {
           <div
             className={styles["profile-pic"]}
             style={{ backgroundImage: 'url("' + data.profile_picture + '")' }}
-          ></div>
+          >
+            {data.profile_picture.length === 0 && (
+              <div className={styles["initials"]}>AM</div>
+            )}
+          </div>
           <div className={styles["user-info"]}>
             <div className={styles["first-row"]}>
               <div className={styles.username}>{data.username}</div>

@@ -253,7 +253,11 @@ function Auction() {
                       style={{
                         backgroundImage: `url('${userData.profile_picture}')`,
                       }}
-                    ></div>
+                    >
+                      {userData.profile_picture.length === 0 && (
+                        <div className={styles["initials"]}>AM</div>
+                      )}
+                    </div>
                     <div
                       className={styles.seller}
                       onClick={() => navigate("/users/" + userData._id)}
