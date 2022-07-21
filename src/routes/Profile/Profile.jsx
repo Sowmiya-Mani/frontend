@@ -35,8 +35,6 @@ function Profile() {
   const [userBids, setUserBids] = useState([]);
   const { width } = useWindowDimensions();
 
-  console.log(data.profile_picture);
-
   const toggleModal = () => {
     setShowEditProfileModal((prev) => !prev);
   };
