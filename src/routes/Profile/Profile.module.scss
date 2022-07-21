@@ -43,6 +43,14 @@
   font-size: 30px;
 }
 
+.initials {
+  font-size: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
 .numbers {
   display: flex;
 }
@@ -98,5 +106,9 @@
 
   .horizontal-line {
     width: 100%;
+  }
+
+  .initials {
+    font-size: 30px;
   }
 }

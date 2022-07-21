@@ -39,6 +39,12 @@ function Profile() {
     setShowEditProfileModal((prev) => !prev);
   };
 
+  const getInitials = () => {
+    return (
+      data.first_name.substring(0, 1) + data.last_name.substring(0, 1)
+    ).toUpperCase();
+  };
+
   useEffect(() => {
     if (useIsLoggedIn()) {
       setIsLoggedIn(true);
@@ -110,7 +116,11 @@ function Profile() {
           <div
             className={styles["profile-pic"]}
             style={{ backgroundImage: 'url("' + data.profile_picture + '")' }}
-          ></div>
+          >
+            {data.profile_picture.length === 0 && (
+              <div className={styles["initials"]}>{getInitials()}</div>
+            )}
+          </div>
           <div className={styles["user-info"]}>
             <div className={styles["first-row"]}>
               <div className={styles.username}>{data.username}</div>
