@@ -10,6 +10,7 @@ import NavigationBar from "./components/NavigationBar";
 import useSearch from "./hooks/useSearch";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
+import useCategoryFilter from "./hooks/useCategoryFilter";
 
 function App() {
   const {
@@ -23,6 +24,8 @@ function App() {
     direction,
     setDirection,
   } = useSearch();
+
+  const { category, setCategory } = useCategoryFilter();
 
   return (
     <div>
@@ -47,6 +50,8 @@ function App() {
               setSort={setSort}
               direction={direction}
               setDirection={setDirection}
+              category={category}
+              setCategory={setCategory}
             />
           }
         />

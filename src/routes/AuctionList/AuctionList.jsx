@@ -5,6 +5,7 @@ import { Button } from "react-bootstrap";
 import ErrorAlert from "../../components/Alerts/ErrorAlert";
 import SuccessAlert from "../../components/Alerts/SuccessAlert";
 import AddAuctionModal from "./AddAuctionModal/AddAuctionModal";
+import CategoryDropdown from "./CategoryDropdown";
 import SortDropdown from "./SortDropdown";
 import useIsLoggedIn from "../../hooks/useIsLoggedIn";
 import jwtDecode from "jwt-decode";
@@ -18,6 +19,8 @@ function AuctionList({
   setDirection,
   sort,
   direction,
+  category,
+  setCategory,
 }) {
   const PAGE_SIZE = 6;
   const [success, setSuccess] = useState("");
@@ -38,6 +41,8 @@ function AuctionList({
     setSuccess("");
   };
 
+  console.log(category);
+
   const getAuctions = () => {
     auctionsService
       .getActiveAuctions({
@@ -46,6 +51,7 @@ function AuctionList({
         limit: PAGE_SIZE,
         sort: sort,
         direction: direction,
+        category: category,
       })
       .then((res) => {
         if (res.error) {
@@ -111,7 +117,7 @@ function AuctionList({
 
   useEffect(() => {
     getAuctions();
-  }, [sort, direction]);
+  }, [sort, direction, category]);
 
   return (
     <div className={styles["list-wrapper"]}>
@@ -139,11 +145,13 @@ function AuctionList({
             Start an auction
           </Button>
         )}
+
         <SortDropdown
           setDirection={setDirection}
           setSort={setSort}
           direction={direction}
         />
+        <CategoryDropdown setCategory={setCategory} />
       </div>
 
       <div
@@ -185,6 +193,8 @@ AuctionList.propTypes = {
   setSort: PropTypes.func.isRequired,
   direction: PropTypes.string.isRequired,
   setDirection: PropTypes.func.isRequired,
+  category: PropTypes.string.isRequired,
+  setCategory: PropTypes.func.isRequired,
 };
 
 export default AuctionList;
