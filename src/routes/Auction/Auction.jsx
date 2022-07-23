@@ -5,7 +5,7 @@ import auctionsService from "./../../services/auctions";
 import { Button } from "react-bootstrap";
 import usersService from "../../services/users";
 import useIsLoggedIn from "../../hooks/useIsLoggedIn";
-import calculateRemainingTime from "../../utils/utils";
+import { calculateRemainingTime } from "../../utils/utils";
 import ImageModal from "./ImageModal";
 import bidsService from "../../services/bids";
 import { io } from "socket.io-client";

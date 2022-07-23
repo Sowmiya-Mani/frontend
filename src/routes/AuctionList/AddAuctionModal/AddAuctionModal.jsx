@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Modal, ProgressBar } from "react-bootstrap";
 import PropTypes from "prop-types";
 import Button from "../../../components/Button";
-import { Form } from "react-bootstrap";
+import { Form, DropdownButton, Dropdown } from "react-bootstrap";
 import UploadImagesInput from "./UploadImagesInput";
 import useUploadToStorage from "../../../hooks/useUploadToStorage";
 import ErrorAlert from "../../../components/Alerts/ErrorAlert";
@@ -21,6 +21,20 @@ function AddAuctionModal({
   const [imageUrls, setImageUrls] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [category, setCategory] = useState(-1);
+  const categories = [
+    "Electronics",
+    "Man's Fashion",
+    "Woman's fashion",
+    "Entertainment",
+    "Other",
+  ];
+
+  const getDropdownTitle = () => {
+    if (category === -1) {
+      return "Choose a category";
+    } else return categories[category];
+  };
 
   const uploadImages = () => {
     setLoading(true);
@@ -71,6 +85,14 @@ function AddAuctionModal({
     });
   };
 
+  const onCategoryChosen = (idx) => {
+    setFormData({
+      ...formData,
+      category: categories[idx],
+    });
+    setCategory(idx);
+  };
+
   useEffect(() => {
     if (uploadedImages) {
       addAuctionHandler(formData, setLoading, setImages);
@@ -78,7 +100,8 @@ function AddAuctionModal({
   }, [uploadedImages]);
 
   const onClose = () => {
-    setFormData({});
+    setCategory(-1);
+    setFormData({ created_by: userId });
     setImages([]);
     closeHandler();
   };
@@ -91,6 +114,11 @@ function AddAuctionModal({
       "date_ends",
       "initial_price",
     ];
+
+    if (category === -1) {
+      setError("Please choose a category");
+      return false;
+    }
 
     for (let field of requiredFields) {
       if (formData[field] === "" || formData[field] == null) {
@@ -196,6 +224,25 @@ function AddAuctionModal({
               value={formData["date_ends"]}
               min={formatMinDate()}
             ></input>
+
+            <DropdownButton
+              variant="outline-primary"
+              id="dropdown-basic-button"
+              title={`${getDropdownTitle()}`}
+              className={styles["dropdown-button"]}
+            >
+              {categories.map((category, idx) => {
+                return (
+                  <Dropdown.Item
+                    key={idx}
+                    onClick={() => onCategoryChosen(idx)}
+                    className={styles["dropdown-item"]}
+                  >
+                    {category}
+                  </Dropdown.Item>
+                );
+              })}
+            </DropdownButton>
 
             {images.length === 0 ? (
               <UploadImagesInput multiple onChange={onImageSelected} />

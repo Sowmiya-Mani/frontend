@@ -18,4 +18,4 @@ const calculateRemainingTime = (date_ends, setRemainingTime) => {
   );
 };
 
-export default calculateRemainingTime;
+export { calculateRemainingTime };
