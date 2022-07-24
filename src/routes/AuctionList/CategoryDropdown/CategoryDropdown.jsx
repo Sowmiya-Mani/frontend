@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { DropdownButton, Dropdown } from "react-bootstrap";
 import PropTypes from "prop-types";
 import styles from "./CategoryDropdown.module.scss";
 
-function CategoryDropdown({ setCategory }) {
+function CategoryDropdown({ setCategory, offcanvas, category }) {
   const categories = [
     "All",
     "Electronics",
@@ -13,7 +13,23 @@ function CategoryDropdown({ setCategory }) {
     "Other",
   ];
 
-  const [active, setActive] = useState(0);
+  const [active, setActive] = useState(categories.indexOf(category));
+
+  useEffect(() => {
+    setActive(categories.indexOf(category));
+  }, [category]);
+
+  const getDropdownStyles = () => {
+    if (offcanvas) {
+      return {
+        display: "inline",
+      };
+    }
+    return {
+      float: "right",
+      marginRight: "1%",
+    };
+  };
 
   const getStyle = (id) => {
     if (id === active) {
@@ -36,7 +52,7 @@ function CategoryDropdown({ setCategory }) {
 
   return (
     <DropdownButton
-      style={{ float: "right", marginRight: "1%" }}
+      style={getDropdownStyles()}
       variant="outline-primary"
       align="end"
       id="dropdown-basic-button"
@@ -66,8 +82,14 @@ function CategoryDropdown({ setCategory }) {
   );
 }
 
+CategoryDropdown.defaultProps = {
+  offcanvas: false,
+};
+
 CategoryDropdown.propTypes = {
+  offcanvas: PropTypes.bool,
   setCategory: PropTypes.func.isRequired,
+  category: PropTypes.string.isRequired,
 };
 
 export default CategoryDropdown;

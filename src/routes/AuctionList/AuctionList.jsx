@@ -7,7 +7,9 @@ import SuccessAlert from "../../components/Alerts/SuccessAlert";
 import AddAuctionModal from "./AddAuctionModal/AddAuctionModal";
 import CategoryDropdown from "./CategoryDropdown";
 import SortDropdown from "./SortDropdown";
+import OptionsOffcanvas from "./OptionsOffcanvas";
 import useIsLoggedIn from "../../hooks/useIsLoggedIn";
+import useWindowDimensions from "../../hooks/useWindowDimensions";
 import jwtDecode from "jwt-decode";
 import PropTypes from "prop-types";
 import styles from "./AuctionList.module.scss";
@@ -29,7 +31,9 @@ function AuctionList({
   const [page, setPage] = useState(1);
   const [exhausted, setExhausted] = useState(false);
   const [showAddAuctionModal, setShowAddAuctionModal] = useState(false);
+  const [showOffcanvas, setShowOffcanvas] = useState(false);
   const isLoggedIn = useIsLoggedIn();
+  const { width } = useWindowDimensions();
 
   useEffect(() => {
     console.log(searchResults);
@@ -41,7 +45,9 @@ function AuctionList({
     setSuccess("");
   };
 
-  console.log(category);
+  const openOffcanvas = () => {
+    setShowOffcanvas(true);
+  };
 
   const getAuctions = () => {
     auctionsService
@@ -124,6 +130,17 @@ function AuctionList({
       {error.length > 0 && <ErrorAlert message={error} setMessage={setError} />}
       {success.length > 0 && <SuccessAlert message={success} />}
 
+      <OptionsOffcanvas
+        show={showOffcanvas}
+        setShow={setShowOffcanvas}
+        setDirection={setDirection}
+        setSort={setSort}
+        direction={direction}
+        setCategory={setCategory}
+        category={category}
+        sort={sort}
+      />
+
       <AddAuctionModal
         closeHandler={closeModal}
         showModal={showAddAuctionModal}
@@ -146,12 +163,27 @@ function AuctionList({
           </Button>
         )}
 
-        <SortDropdown
-          setDirection={setDirection}
-          setSort={setSort}
-          direction={direction}
-        />
-        <CategoryDropdown setCategory={setCategory} />
+        {width > 520 ? (
+          <>
+            <SortDropdown
+              setDirection={setDirection}
+              setSort={setSort}
+              direction={direction}
+            />
+            <CategoryDropdown setCategory={setCategory} />
+          </>
+        ) : (
+          <>
+            <Button
+              style={{ float: "right", marginRight: "7.5%" }}
+              variant="outline-primary"
+              onClick={openOffcanvas}
+            >
+              <i className="bi bi-sliders2" style={{ marginRight: "10px" }}></i>
+              Options
+            </Button>
+          </>
+        )}
       </div>
 
       <div
