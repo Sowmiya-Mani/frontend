@@ -19,7 +19,6 @@ function Search({
   };
 
   const onClick = (e) => {
-    console.log("clicked on this bich");
     e.preventDefault();
     setSearching(true);
     auctionsService

@@ -4,15 +4,16 @@
 
 .label {
   margin-top: 10px;
-  background-color: var(--primary) !important;
-  padding: 5px;
+  background-color: white !important;
+  padding: 8px;
   margin-inline: auto;
-  border: none;
+  border: 1px solid var(--bs-primary);
   border-radius: 4px;
-  color: white;
+  color: var(--bs-primary);
 
   &:hover {
     background-color: var(--primary-hover) !important;
     cursor: pointer;
+    color: white;
   }
 }

@@ -38,3 +38,22 @@
   flex-direction: column;
   align-items: center;
 }
+
+.dropdown-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  &:hover > i {
+    color: var(--primary);
+  }
+}
+
+.icon {
+  margin-right: 10px;
+}
+
+.dropdown-button {
+  text-align: center;
+  margin-top: 10px;
+}

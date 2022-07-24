@@ -1,16 +1,32 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { DropdownButton, Dropdown } from "react-bootstrap";
 import PropTypes from "prop-types";
 import styles from "./SortDropdown.module.scss";
 
-function SortDropdown({ direction, setDirection, setSort }) {
+function SortDropdown({ direction, setDirection, setSort, offcanvas, sort }) {
   const sortings = [
     "initial_price",
     "bid_count",
     "current_price",
     "date_added",
   ];
-  const [active, setActive] = useState(0);
+  const [active, setActive] = useState(sortings.indexOf(sort));
+
+  useEffect(() => {
+    setActive(sortings.indexOf(sort));
+  }, [sort]);
+
+  const getDropdownStyles = () => {
+    if (offcanvas) {
+      return {
+        display: "inline",
+      };
+    }
+    return {
+      float: "right",
+      marginRight: "7.5%",
+    };
+  };
 
   const getStyle = (id) => {
     if (id === active) {
@@ -35,9 +51,10 @@ function SortDropdown({ direction, setDirection, setSort }) {
     setSort(sortBy);
     setActive(sortings.indexOf(sortBy));
   };
+
   return (
     <DropdownButton
-      style={{ float: "right", marginRight: "7.5%" }}
+      style={getDropdownStyles()}
       variant="outline-primary"
       align="end"
       id="dropdown-basic-button"
@@ -96,10 +113,16 @@ function SortDropdown({ direction, setDirection, setSort }) {
   );
 }
 
+SortDropdown.defaultProps = {
+  offcanvas: false,
+};
+
 SortDropdown.propTypes = {
   setSort: PropTypes.func.isRequired,
   setDirection: PropTypes.func.isRequired,
   direction: PropTypes.string.isRequired,
+  offcanvas: PropTypes.bool.isRequired,
+  sort: PropTypes.string.isRequired,
 };
 
 export default SortDropdown;

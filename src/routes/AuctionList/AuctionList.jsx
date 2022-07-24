@@ -5,8 +5,11 @@ import { Button } from "react-bootstrap";
 import ErrorAlert from "../../components/Alerts/ErrorAlert";
 import SuccessAlert from "../../components/Alerts/SuccessAlert";
 import AddAuctionModal from "./AddAuctionModal/AddAuctionModal";
+import CategoryDropdown from "./CategoryDropdown";
 import SortDropdown from "./SortDropdown";
+import OptionsOffcanvas from "./OptionsOffcanvas";
 import useIsLoggedIn from "../../hooks/useIsLoggedIn";
+import useWindowDimensions from "../../hooks/useWindowDimensions";
 import jwtDecode from "jwt-decode";
 import PropTypes from "prop-types";
 import styles from "./AuctionList.module.scss";
@@ -18,6 +21,8 @@ function AuctionList({
   setDirection,
   sort,
   direction,
+  category,
+  setCategory,
 }) {
   const PAGE_SIZE = 6;
   const [success, setSuccess] = useState("");
@@ -26,7 +31,9 @@ function AuctionList({
   const [page, setPage] = useState(1);
   const [exhausted, setExhausted] = useState(false);
   const [showAddAuctionModal, setShowAddAuctionModal] = useState(false);
+  const [showOffcanvas, setShowOffcanvas] = useState(false);
   const isLoggedIn = useIsLoggedIn();
+  const { width } = useWindowDimensions();
 
   useEffect(() => {
     console.log(searchResults);
@@ -38,6 +45,10 @@ function AuctionList({
     setSuccess("");
   };
 
+  const openOffcanvas = () => {
+    setShowOffcanvas(true);
+  };
+
   const getAuctions = () => {
     auctionsService
       .getActiveAuctions({
@@ -46,6 +57,7 @@ function AuctionList({
         limit: PAGE_SIZE,
         sort: sort,
         direction: direction,
+        category: category,
       })
       .then((res) => {
         if (res.error) {
@@ -111,12 +123,23 @@ function AuctionList({
 
   useEffect(() => {
     getAuctions();
-  }, [sort, direction]);
+  }, [sort, direction, category]);
 
   return (
     <div className={styles["list-wrapper"]}>
       {error.length > 0 && <ErrorAlert message={error} setMessage={setError} />}
       {success.length > 0 && <SuccessAlert message={success} />}
+
+      <OptionsOffcanvas
+        show={showOffcanvas}
+        setShow={setShowOffcanvas}
+        setDirection={setDirection}
+        setSort={setSort}
+        direction={direction}
+        setCategory={setCategory}
+        category={category}
+        sort={sort}
+      />
 
       <AddAuctionModal
         closeHandler={closeModal}
@@ -139,11 +162,28 @@ function AuctionList({
             Start an auction
           </Button>
         )}
-        <SortDropdown
-          setDirection={setDirection}
-          setSort={setSort}
-          direction={direction}
-        />
+
+        {width > 520 ? (
+          <>
+            <SortDropdown
+              setDirection={setDirection}
+              setSort={setSort}
+              direction={direction}
+            />
+            <CategoryDropdown setCategory={setCategory} />
+          </>
+        ) : (
+          <>
+            <Button
+              style={{ float: "right", marginRight: "7.5%" }}
+              variant="outline-primary"
+              onClick={openOffcanvas}
+            >
+              <i className="bi bi-sliders2" style={{ marginRight: "10px" }}></i>
+              Options
+            </Button>
+          </>
+        )}
       </div>
 
       <div
@@ -185,6 +225,8 @@ AuctionList.propTypes = {
   setSort: PropTypes.func.isRequired,
   direction: PropTypes.string.isRequired,
   setDirection: PropTypes.func.isRequired,
+  category: PropTypes.string.isRequired,
+  setCategory: PropTypes.func.isRequired,
 };
 
 export default AuctionList;

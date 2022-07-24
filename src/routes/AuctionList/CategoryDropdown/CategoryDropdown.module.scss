@@ -1,0 +1,19 @@
+.dropdown-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  &:hover > i {
+    color: var(--primary);
+  }
+}
+
+.active-dropdown-item {
+  &:hover > i {
+    color: white;
+  }
+}
+
+.icon {
+  margin-right: 10px;
+}

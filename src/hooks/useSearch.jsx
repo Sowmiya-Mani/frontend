@@ -4,7 +4,7 @@ function useSearch() {
   const [search, setSearch] = useState("");
   const [searching, setSearching] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
-  const [sort, setSort] = useState("created_at");
+  const [sort, setSort] = useState("date_added");
   const [direction, setDirection] = useState("-1");
 
   return {
