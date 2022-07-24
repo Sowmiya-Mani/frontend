@@ -209,7 +209,9 @@ function AuctionList({
           ))}
       </div>
 
-      <div className={styles["no-auctions-message"]}>No auctions found!</div>
+      {auctions.length === 0 && (
+        <div className={styles["no-auctions-message"]}>No auctions found!</div>
+      )}
 
       {!exhausted ? (
         <div className={styles.button}>
