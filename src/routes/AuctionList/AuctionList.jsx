@@ -63,7 +63,11 @@ function AuctionList({
         if (res.error) {
           setError(res.error);
         } else if (res.data.length === 0) {
-          setExhausted(true);
+          if (page > 1) {
+            setExhausted(true);
+          } else {
+            setError("No results found");
+          }
         }
         if (page !== 1) {
           setAuctions([...auctions, ...res.data]);
@@ -122,7 +126,11 @@ function AuctionList({
   }, [page]);
 
   useEffect(() => {
-    getAuctions();
+    if (page === 1) {
+      getAuctions();
+    }
+    setPage(1);
+    setExhausted(false);
   }, [sort, direction, category]);
 
   return (
@@ -195,14 +203,13 @@ function AuctionList({
               : "repeat(auto-fit, minmax(250px, calc(85% / 3)))",
         }}
       >
-        {auctions.length > 0 ? (
+        {auctions.length > 0 &&
           auctions.map((auction, index) => (
             <AuctionCard key={index} auction={auction} />
-          ))
-        ) : (
-          <div>No auctions found!</div>
-        )}
+          ))}
       </div>
+
+      <div className={styles["no-auctions-message"]}>No auctions found!</div>
 
       {!exhausted ? (
         <div className={styles.button}>
@@ -212,7 +219,7 @@ function AuctionList({
           </Button>
         </div>
       ) : (
-        <div className={styles.message}>Thats it for now</div>
+        <div className={styles.message}>That&apos;s it for now</div>
       )}
     </div>
   );
