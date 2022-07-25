@@ -1,0 +1,11 @@
+.custom-slider::-webkit-slider-thumb {
+  background: var(--bs-primary) !important;
+}
+
+.custom-slider::-moz-range-thumb {
+  background: var(--bs-primary) !important;
+}
+
+.custom-slider::-ms-thumb {
+  background: var(--bs-primary) !important;
+}

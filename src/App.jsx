@@ -11,6 +11,7 @@ import useSearch from "./hooks/useSearch";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import useCategoryFilter from "./hooks/useCategoryFilter";
+import usePriceRange from "./hooks/usePriceRange";
 
 function App() {
   const {
@@ -26,6 +27,7 @@ function App() {
   } = useSearch();
 
   const { category, setCategory } = useCategoryFilter();
+  const { from, setFrom, to, setTo } = usePriceRange();
 
   return (
     <div>
@@ -52,6 +54,10 @@ function App() {
               setDirection={setDirection}
               category={category}
               setCategory={setCategory}
+              to={to}
+              setTo={setTo}
+              from={from}
+              setFrom={setFrom}
             />
           }
         />
