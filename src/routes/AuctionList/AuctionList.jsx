@@ -9,6 +9,7 @@ import CategoryDropdown from "./CategoryDropdown";
 import SortDropdown from "./SortDropdown";
 import OptionsOffcanvas from "./OptionsOffcanvas";
 import useIsLoggedIn from "../../hooks/useIsLoggedIn";
+import useDebounce from "../../hooks/useDebounce";
 import useWindowDimensions from "../../hooks/useWindowDimensions";
 import jwtDecode from "jwt-decode";
 import PropTypes from "prop-types";
@@ -23,6 +24,10 @@ function AuctionList({
   direction,
   category,
   setCategory,
+  from,
+  setFrom,
+  to,
+  setTo,
 }) {
   const PAGE_SIZE = 6;
   const [success, setSuccess] = useState("");
@@ -34,6 +39,9 @@ function AuctionList({
   const [showOffcanvas, setShowOffcanvas] = useState(false);
   const isLoggedIn = useIsLoggedIn();
   const { width } = useWindowDimensions();
+
+  const debouncedFrom = useDebounce(from, 800);
+  const debouncedTo = useDebounce(to, 800);
 
   useEffect(() => {
     console.log(searchResults);
@@ -58,6 +66,8 @@ function AuctionList({
         sort: sort,
         direction: direction,
         category: category,
+        from: debouncedFrom,
+        to: debouncedTo,
       })
       .then((res) => {
         if (res.error) {
@@ -131,7 +141,7 @@ function AuctionList({
     }
     setPage(1);
     setExhausted(false);
-  }, [sort, direction, category]);
+  }, [sort, direction, category, debouncedFrom, debouncedTo]);
 
   return (
     <div className={styles["list-wrapper"]}>
@@ -147,6 +157,10 @@ function AuctionList({
         setCategory={setCategory}
         category={category}
         sort={sort}
+        from={from}
+        setFrom={setFrom}
+        to={to}
+        setTo={setTo}
       />
 
       <AddAuctionModal
@@ -171,7 +185,7 @@ function AuctionList({
           </Button>
         )}
 
-        {width > 520 ? (
+        {width > 700 ? (
           <>
             <SortDropdown
               setDirection={setDirection}
@@ -236,6 +250,10 @@ AuctionList.propTypes = {
   setDirection: PropTypes.func.isRequired,
   category: PropTypes.string.isRequired,
   setCategory: PropTypes.func.isRequired,
+  from: PropTypes.number.isRequired,
+  setFrom: PropTypes.func.isRequired,
+  to: PropTypes.number.isRequired,
+  setTo: PropTypes.func.isRequired,
 };
 
 export default AuctionList;
