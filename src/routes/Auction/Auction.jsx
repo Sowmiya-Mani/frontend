@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Spinner } from "react-bootstrap";
+import jwt_decode from "jwt-decode";
 import auctionsService from "./../../services/auctions";
 import { Button } from "react-bootstrap";
 import usersService from "../../services/users";
@@ -29,9 +30,12 @@ function Auction() {
   const [winner, setWinner] = useState("");
 
   const validateBid = () => {
-    console.log("Validating a bid");
-    if (isNaN(bid)) {
+    if (jwt_decode(localStorage.getItem("token")).uid === data.created_by) {
+      setError("You cannot place a bid on your own auction!");
+      return;
+    } else if (isNaN(bid)) {
       setError("The bid has to be a number.");
+      return;
     } else if (data.bids.length === 0) {
       if (bid <= data.initial_price) {
         setError("You have to bid more than the initial price.");
@@ -41,9 +45,8 @@ function Auction() {
     } else if (bid <= data.bids[data.bids.length - 1].price) {
       setError("You have to bid more than the current bid.");
       return false;
-    } else {
-      return true;
     }
+    return true;
   };
 
   const getInitials = () => {
@@ -61,8 +64,7 @@ function Auction() {
   };
 
   const onClick = (e) => {
-    const validBid = validateBid();
-    if (validBid) {
+    if (validateBid()) {
       e.preventDefault();
       bidsService
         .postNewBid({
