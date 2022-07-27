@@ -2,16 +2,17 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Spinner } from "react-bootstrap";
 import jwt_decode from "jwt-decode";
-import auctionsService from "./../../services/auctions";
 import { Button } from "react-bootstrap";
-import usersService from "../../services/users";
-import useIsLoggedIn from "../../hooks/useIsLoggedIn";
-import { calculateRemainingTime } from "../../utils/utils";
-import ImageModal from "./ImageModal";
-import bidsService from "../../services/bids";
 import { io } from "socket.io-client";
+import auctionsService from "./../../services/auctions";
+import usersService from "../../services/users";
+import bidsService from "../../services/bids";
+import useIsLoggedIn from "../../hooks/useIsLoggedIn";
+import ImageModal from "./ImageModal";
+import AuctionCardTag from "../AuctionList/AuctionCards/AuctionCardTag/AuctionCardTag";
 import SuccessAlert from "../../components/Alerts/SuccessAlert";
 import ErrorAlert from "../../components/Alerts/ErrorAlert";
+import { calculateRemainingTime, prettyDate } from "../../utils/utils";
 import styles from "./Auction.module.scss";
 
 function Auction() {
@@ -82,8 +83,7 @@ function Auction() {
   };
 
   useEffect(() => {
-    if (data?.expired) {
-      console.log(data.won_by);
+    if (data?.expired && data.won_by) {
       usersService
         .getUserById({ id: data.won_by })
         .then((res) => {
@@ -151,6 +151,15 @@ function Auction() {
     return () => clearInterval(interval);
   }, [data]);
 
+  const getStatus = () => {
+    if (data.expired && winner) {
+      return "sold";
+    } else if (data.expired && !winner) {
+      return "expired";
+    }
+    return "active";
+  };
+
   return (
     <>
       {(error.length > 0 || success.length > 0) && (
@@ -195,6 +204,9 @@ function Auction() {
 
             <div className={styles.info}>
               <h1 className={styles.title}>{data.item_name}</h1>
+              <div>
+                <AuctionCardTag name={getStatus()} />
+              </div>
               <div className={styles["price-container"]}>
                 <div className={styles.price}>
                   US ${" "}
@@ -231,7 +243,7 @@ function Auction() {
                   ? `EXPIRED on ${data.date_ends.substring(0, 10)}`
                   : timeRemaining}
               </div>
-              {data.expired && (
+              {data.expired && winner && (
                 <div>
                   Winner:{" "}
                   <span
@@ -241,6 +253,11 @@ function Auction() {
                     {winner.username}
                   </span>
                 </div>
+              )}
+
+              {data.category && <div>Category: {data.category}</div>}
+              {data.date_added && (
+                <div>Date added: {prettyDate(data.date_added)}</div>
               )}
             </div>
 
