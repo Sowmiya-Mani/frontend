@@ -82,8 +82,6 @@ function Auction() {
     }
   };
 
-  console.log(data);
-
   useEffect(() => {
     if (data?.expired && data.won_by) {
       usersService
