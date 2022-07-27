@@ -12,7 +12,7 @@ import ImageModal from "./ImageModal";
 import AuctionCardTag from "../AuctionList/AuctionCards/AuctionCardTag/AuctionCardTag";
 import SuccessAlert from "../../components/Alerts/SuccessAlert";
 import ErrorAlert from "../../components/Alerts/ErrorAlert";
-import { calculateRemainingTime } from "../../utils/utils";
+import { calculateRemainingTime, prettyDate } from "../../utils/utils";
 import styles from "./Auction.module.scss";
 
 function Auction() {
@@ -81,6 +81,8 @@ function Auction() {
         });
     }
   };
+
+  console.log(data);
 
   useEffect(() => {
     if (data?.expired && data.won_by) {
@@ -256,6 +258,9 @@ function Auction() {
               )}
 
               {data.category && <div>Category: {data.category}</div>}
+              {data.date_added && (
+                <div>Date added: {prettyDate(data.date_added)}</div>
+              )}
             </div>
 
             <div className={styles.description}>
