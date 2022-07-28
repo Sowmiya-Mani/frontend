@@ -20,6 +20,7 @@ function Profile() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isOwnProfile, setIsOwnProfile] = useState(false);
   const [isFetching, setIsFetching] = useState(true);
+  const [isFetchingUserAuctions, setIsFetchingUserAuctions] = useState(true);
   const [isFetchingUserBids, setIsFetchingUserBids] = useState(true);
   const [isFetchingWonUserAuctions, setIsFetchingWonUserAuctions] =
     useState(true);
@@ -67,11 +68,13 @@ function Profile() {
         console.log(err);
       });
 
+    setIsFetchingUserAuctions(true);
     usersService
       .getUserAuctions(id)
       .then((res) => {
         console.log(res);
         setUserAuctions(res.data.auctions);
+        setIsFetchingUserAuctions(false);
       })
       .catch((err) => console.log(err));
 
@@ -109,7 +112,7 @@ function Profile() {
       />
       {isFetching ? (
         <div className={styles.spinner}>
-          <Spinner animation="border" role="status" />
+          <Spinner animation="border" role="status" variant="primary" />
         </div>
       ) : (
         <div className={styles["upper-div"]}>
@@ -185,6 +188,14 @@ function Profile() {
       </div>
 
       <hr className={styles["horizontal-line"]} />
+
+      {(isFetchingUserAuctions ||
+        isFetchingUserBids ||
+        isFetchingWonUserAuctions) && (
+        <div className={styles["item-spinner"]}>
+          <Spinner animation="border" role="status" variant="primary" />{" "}
+        </div>
+      )}
 
       <div className={styles["items-container"]}>
         {userAuctions.length > 0 &&
