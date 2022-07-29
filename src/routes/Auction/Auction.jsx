@@ -9,6 +9,7 @@ import usersService from "../../services/users";
 import bidsService from "../../services/bids";
 import useIsLoggedIn from "../../hooks/useIsLoggedIn";
 import ImageModal from "./ImageModal";
+import BidsModal from "./BidsModal";
 import AuctionCardTag from "../AuctionList/AuctionCards/AuctionCardTag/AuctionCardTag";
 import SuccessAlert from "../../components/Alerts/SuccessAlert";
 import ErrorAlert from "../../components/Alerts/ErrorAlert";
@@ -19,6 +20,7 @@ function Auction() {
   const navigate = useNavigate();
   const { id } = useParams();
   const [showImageModal, setShowImageModal] = useState(false);
+  const [showBidsModal, setShowBidsModal] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState(false);
@@ -58,6 +60,10 @@ function Auction() {
 
   const toggleImageModal = () => {
     setShowImageModal((prev) => !prev);
+  };
+
+  const toggleBidsModal = () => {
+    setShowBidsModal((prev) => !prev);
   };
 
   const onChange = (e) => {
@@ -182,6 +188,13 @@ function Auction() {
               handleClose={toggleImageModal}
               pictures={data.pictures}
             />
+
+            <BidsModal
+              show={showBidsModal}
+              handleClose={toggleBidsModal}
+              bids={data.bids}
+              expired={data.expired}
+            />
             <div>
               <div
                 className={styles["image-container"]}
@@ -258,6 +271,20 @@ function Auction() {
               {data.category && <div>Category: {data.category}</div>}
               {data.date_added && (
                 <div>Date added: {prettyDate(data.date_added)}</div>
+              )}
+
+              {data.bids.length > 0 ? (
+                <div>
+                  Number of bids:{" "}
+                  <span
+                    onClick={toggleBidsModal}
+                    className={styles["number-of-bids"]}
+                  >
+                    {data.bids.length}
+                  </span>
+                </div>
+              ) : (
+                <div>This item currently has no bids.</div>
               )}
             </div>
 

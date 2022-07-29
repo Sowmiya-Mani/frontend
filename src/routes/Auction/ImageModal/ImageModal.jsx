@@ -1,7 +1,6 @@
 import React from "react";
-import { Modal, Carousel } from "react-bootstrap";
+import { Modal, Carousel, Button } from "react-bootstrap";
 import PropTypes from "prop-types";
-import Button from "../../../components/Button";
 import styles from "./ImageModal.module.scss";
 
 function ImageModal({ handleClose, show, pictures }) {
@@ -30,7 +29,7 @@ function ImageModal({ handleClose, show, pictures }) {
           )}
         </Modal.Body>
         <Modal.Footer>
-          <Button value="Close" onClick={handleClose} />
+          <Button onClick={handleClose}>Close</Button>
         </Modal.Footer>
       </Modal>
     </div>

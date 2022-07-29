@@ -1,0 +1,42 @@
+.card {
+  margin-bottom: 10px;
+  padding: 10px 0px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid #d3d3d3;
+  border-radius: 3px;
+
+  &:hover {
+    animation: fadeBorder 1s forwards;
+  }
+}
+
+.col1 {
+  margin-left: 10px;
+}
+
+.creator {
+  margin-left: 5px;
+  &:hover {
+    color: var(--bs-primary);
+    cursor: pointer;
+    text-decoration: underline;
+  }
+}
+
+.amount {
+  font-size: 30px;
+
+  color: var(--bs-primary);
+  margin-right: 10px;
+}
+
+@keyframes fadeBorder {
+  0% {
+    border: 1px solid #d3d3d3;
+  }
+  100% {
+    border: 1px solid var(--bs-primary);
+  }
+}
