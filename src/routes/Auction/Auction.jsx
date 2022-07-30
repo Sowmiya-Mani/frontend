@@ -33,18 +33,26 @@ function Auction() {
   const [winner, setWinner] = useState("");
 
   const validateBid = () => {
-    if (jwt_decode(localStorage.getItem("token")).uid === data.created_by) {
+    if (
+      data.bids.length > 0 &&
+      jwt_decode(localStorage.getItem("token")).uid ===
+        data.bids[data.bids.length - 1].created_by
+    ) {
+      setError("Your previous bid is still the biggest.");
+      return false;
+    } else if (
+      jwt_decode(localStorage.getItem("token")).uid === data.created_by
+    ) {
       setError("You cannot place a bid on your own auction!");
-      return;
+      return false;
     } else if (isNaN(bid)) {
       setError("The bid has to be a number.");
-      return;
+      return false;
     } else if (data.bids.length === 0) {
       if (bid <= data.initial_price) {
         setError("You have to bid more than the initial price.");
         return false;
       }
-      return true;
     } else if (bid <= data.bids[data.bids.length - 1].price) {
       setError("You have to bid more than the current bid.");
       return false;
