@@ -1,11 +1,36 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Modal, Button } from "react-bootstrap";
 import PropTypes from "prop-types";
 import BidModalCard from "./BidModalCard";
 import styles from "./BidsModal.module.scss";
 
+const PAGE_SIZE = 5;
+
 function BidsModal({ show, handleClose, bids, expired }) {
   const bidsReversed = [...bids].reverse();
+  const [page, setPage] = useState(1);
+  const [shownBids, setShownBids] = useState(
+    bidsReversed.slice(0, PAGE_SIZE * page)
+  );
+  const [exhausted, setExhausted] = useState(false);
+
+  const loadMoreBids = (e) => {
+    e.preventDefault();
+    setPage((prevPage) => prevPage + 1);
+  };
+
+  useEffect(() => {
+    if (PAGE_SIZE * page > bids.length) {
+      setExhausted(true);
+    }
+    setShownBids(bidsReversed.slice(0, PAGE_SIZE * page));
+  }, [page]);
+
+  const closeModal = () => {
+    setPage(1);
+    setExhausted(false);
+    handleClose();
+  };
 
   return (
     <div className={styles.modal}>
@@ -16,12 +41,23 @@ function BidsModal({ show, handleClose, bids, expired }) {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          {bidsReversed.map((bid, index) => (
+          {shownBids.map((bid, index) => (
             <BidModalCard key={index} bid={bid} />
           ))}
+
+          <div className={styles["load-more-button"]}>
+            {exhausted ? (
+              <div>That is all</div>
+            ) : (
+              <Button variant="outline-primary" onClick={loadMoreBids}>
+                <i className={`bi bi-caret-down ${styles.icon}`}></i>
+                Load more
+              </Button>
+            )}
+          </div>
         </Modal.Body>
         <Modal.Footer>
-          <Button onClick={handleClose}>Close</Button>
+          <Button onClick={closeModal}>Close</Button>
         </Modal.Footer>
       </Modal>
     </div>
