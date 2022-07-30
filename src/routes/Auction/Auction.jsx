@@ -9,6 +9,7 @@ import usersService from "../../services/users";
 import bidsService from "../../services/bids";
 import useIsLoggedIn from "../../hooks/useIsLoggedIn";
 import ImageModal from "./ImageModal";
+import BidsModal from "./BidsModal";
 import AuctionCardTag from "../AuctionList/AuctionCards/AuctionCardTag/AuctionCardTag";
 import SuccessAlert from "../../components/Alerts/SuccessAlert";
 import ErrorAlert from "../../components/Alerts/ErrorAlert";
@@ -19,6 +20,7 @@ function Auction() {
   const navigate = useNavigate();
   const { id } = useParams();
   const [showImageModal, setShowImageModal] = useState(false);
+  const [showBidsModal, setShowBidsModal] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState(false);
@@ -31,18 +33,26 @@ function Auction() {
   const [winner, setWinner] = useState("");
 
   const validateBid = () => {
-    if (jwt_decode(localStorage.getItem("token")).uid === data.created_by) {
+    if (
+      data.bids.length > 0 &&
+      jwt_decode(localStorage.getItem("token")).uid ===
+        data.bids[data.bids.length - 1].created_by
+    ) {
+      setError("Your previous bid is still the biggest.");
+      return false;
+    } else if (
+      jwt_decode(localStorage.getItem("token")).uid === data.created_by
+    ) {
       setError("You cannot place a bid on your own auction!");
-      return;
+      return false;
     } else if (isNaN(bid)) {
       setError("The bid has to be a number.");
-      return;
+      return false;
     } else if (data.bids.length === 0) {
       if (bid <= data.initial_price) {
         setError("You have to bid more than the initial price.");
         return false;
       }
-      return true;
     } else if (bid <= data.bids[data.bids.length - 1].price) {
       setError("You have to bid more than the current bid.");
       return false;
@@ -58,6 +68,10 @@ function Auction() {
 
   const toggleImageModal = () => {
     setShowImageModal((prev) => !prev);
+  };
+
+  const toggleBidsModal = () => {
+    setShowBidsModal((prev) => !prev);
   };
 
   const onChange = (e) => {
@@ -182,6 +196,13 @@ function Auction() {
               handleClose={toggleImageModal}
               pictures={data.pictures}
             />
+
+            <BidsModal
+              show={showBidsModal}
+              handleClose={toggleBidsModal}
+              bids={data.bids}
+              expired={data.expired}
+            />
             <div>
               <div
                 className={styles["image-container"]}
@@ -258,6 +279,20 @@ function Auction() {
               {data.category && <div>Category: {data.category}</div>}
               {data.date_added && (
                 <div>Date added: {prettyDate(data.date_added)}</div>
+              )}
+
+              {data.bids.length > 0 ? (
+                <div>
+                  Number of bids:{" "}
+                  <span
+                    onClick={toggleBidsModal}
+                    className={styles["number-of-bids"]}
+                  >
+                    {data.bids.length}
+                  </span>
+                </div>
+              ) : (
+                <div>This item currently has no bids.</div>
               )}
             </div>
 
