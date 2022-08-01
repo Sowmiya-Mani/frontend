@@ -12,6 +12,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import useCategoryFilter from "./hooks/useCategoryFilter";
 import usePriceRange from "./hooks/usePriceRange";
+import usePagination from "./hooks/usePagination";
 
 function App() {
   const {
@@ -28,6 +29,7 @@ function App() {
 
   const { category, setCategory } = useCategoryFilter();
   const { from, setFrom, to, setTo } = usePriceRange();
+  const { page, setPage, exhausted, setExhausted } = usePagination();
 
   return (
     <div>
@@ -38,6 +40,8 @@ function App() {
         setSearchResults={setSearchResults}
         sort={sort}
         direction={direction}
+        setPage={setPage}
+        setExhausted={setExhausted}
       />
       <Routes>
         <Route path="/" exact element={<Home />} />
@@ -58,6 +62,10 @@ function App() {
               setTo={setTo}
               from={from}
               setFrom={setFrom}
+              setPage={setPage}
+              page={page}
+              setExhausted={setExhausted}
+              exhausted={exhausted}
             />
           }
         />

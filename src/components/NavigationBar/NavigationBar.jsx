@@ -21,6 +21,8 @@ function NavigationBar({
   setSearchResults,
   sort,
   direction,
+  setPage,
+  setExhausted,
 }) {
   const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem("token"));
   const [isLoading, setIsLoading] = useState(true);
@@ -92,6 +94,8 @@ function NavigationBar({
                 setSearchResults={setSearchResults}
                 sort={sort}
                 direction={direction}
+                setPage={setPage}
+                setExhausted={setExhausted}
               />
             )}
 
@@ -139,6 +143,8 @@ NavigationBar.propTypes = {
   setSearchResults: PropTypes.func.isRequired,
   sort: PropTypes.string.isRequired,
   direction: PropTypes.string.isRequired,
+  setPage: PropTypes.func.isRequired,
+  setExhausted: PropTypes.func.isRequired,
 };
 
 export default NavigationBar;
