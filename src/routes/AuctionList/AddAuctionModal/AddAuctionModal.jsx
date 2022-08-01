@@ -95,6 +95,7 @@ function AddAuctionModal({
 
   useEffect(() => {
     if (uploadedImages) {
+      setUploadedImages(false);
       addAuctionHandler(formData, setLoading, setImages);
     }
   }, [uploadedImages]);
@@ -136,8 +137,7 @@ function AddAuctionModal({
   };
 
   const onSubmit = () => {
-    let validData = validateData();
-    if (!validData) {
+    if (!validateData()) {
       return;
     }
     if (images.length === 0) {
