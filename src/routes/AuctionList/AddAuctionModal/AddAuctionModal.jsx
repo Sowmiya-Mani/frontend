@@ -126,6 +126,12 @@ function AddAuctionModal({
         return false;
       }
     }
+
+    if (isNaN(formData["initial_price"])) {
+      setError("The initial price has to be a number!");
+      return false;
+    }
+
     return true;
   };
 
