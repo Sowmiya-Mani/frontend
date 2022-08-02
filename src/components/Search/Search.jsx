@@ -10,6 +10,8 @@ function Search({
   setSearchResults,
   sort,
   direction,
+  setPage,
+  setExhausted,
 }) {
   const PAGE_SIZE = 6;
 
@@ -33,10 +35,14 @@ function Search({
         console.log(res.data);
         setSearchResults(res.data);
         setSearching(false);
+        setPage(1);
+        setExhausted(false);
       })
       .catch((err) => {
         console.log(err);
         setSearching(false);
+        setPage(1);
+        setExhausted(false);
       });
   };
 
@@ -65,6 +71,8 @@ Search.propTypes = {
   setSearchResults: PropTypes.func.isRequired,
   sort: PropTypes.string.isRequired,
   direction: PropTypes.string.isRequired,
+  setPage: PropTypes.func.isRequired,
+  setExhausted: PropTypes.func.isRequired,
 };
 
 export default Search;

@@ -95,6 +95,7 @@ function AddAuctionModal({
 
   useEffect(() => {
     if (uploadedImages) {
+      setUploadedImages(false);
       addAuctionHandler(formData, setLoading, setImages);
     }
   }, [uploadedImages]);
@@ -126,12 +127,17 @@ function AddAuctionModal({
         return false;
       }
     }
+
+    if (isNaN(formData["initial_price"])) {
+      setError("The initial price has to be a number!");
+      return false;
+    }
+
     return true;
   };
 
   const onSubmit = () => {
-    let validData = validateData();
-    if (!validData) {
+    if (!validateData()) {
       return;
     }
     if (images.length === 0) {

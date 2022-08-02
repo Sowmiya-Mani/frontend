@@ -121,7 +121,7 @@ SortDropdown.propTypes = {
   setSort: PropTypes.func.isRequired,
   setDirection: PropTypes.func.isRequired,
   direction: PropTypes.string.isRequired,
-  offcanvas: PropTypes.bool.isRequired,
+  offcanvas: PropTypes.bool,
   sort: PropTypes.string.isRequired,
 };
 

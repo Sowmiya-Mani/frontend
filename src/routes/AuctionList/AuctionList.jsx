@@ -28,13 +28,15 @@ function AuctionList({
   setFrom,
   to,
   setTo,
+  page,
+  setPage,
+  exhausted,
+  setExhausted,
 }) {
   const PAGE_SIZE = 6;
   const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
   const [auctions, setAuctions] = useState([]);
-  const [page, setPage] = useState(1);
-  const [exhausted, setExhausted] = useState(false);
   const [showAddAuctionModal, setShowAddAuctionModal] = useState(false);
   const [showOffcanvas, setShowOffcanvas] = useState(false);
   const isLoggedIn = useIsLoggedIn();
@@ -44,7 +46,6 @@ function AuctionList({
   const debouncedTo = useDebounce(to, 800);
 
   useEffect(() => {
-    console.log(searchResults);
     setAuctions(searchResults);
   }, [searchResults]);
 
@@ -146,7 +147,9 @@ function AuctionList({
   return (
     <div className={styles["list-wrapper"]}>
       {error.length > 0 && <ErrorAlert message={error} setMessage={setError} />}
-      {success.length > 0 && <SuccessAlert message={success} />}
+      {success.length > 0 && (
+        <SuccessAlert message={success} setMessage={setSuccess} />
+      )}
 
       <OptionsOffcanvas
         show={showOffcanvas}
@@ -191,8 +194,9 @@ function AuctionList({
               setDirection={setDirection}
               setSort={setSort}
               direction={direction}
+              sort={sort}
             />
-            <CategoryDropdown setCategory={setCategory} />
+            <CategoryDropdown setCategory={setCategory} category={category} />
           </>
         ) : (
           <>
@@ -254,6 +258,10 @@ AuctionList.propTypes = {
   setFrom: PropTypes.func.isRequired,
   to: PropTypes.number.isRequired,
   setTo: PropTypes.func.isRequired,
+  page: PropTypes.number.isRequired,
+  setPage: PropTypes.func.isRequired,
+  exhausted: PropTypes.bool.isRequired,
+  setExhausted: PropTypes.func.isRequired,
 };
 
 export default AuctionList;
