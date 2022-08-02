@@ -145,7 +145,7 @@ function Auction() {
   useEffect(() => {
     const interval = setInterval(() => {
       calculateRemainingTime(data.date_ends, setTimeRemaining);
-    }, 100000);
+    }, 1000);
 
     if (data && loadingUserData) {
       calculateRemainingTime(data.date_ends, setTimeRemaining);
