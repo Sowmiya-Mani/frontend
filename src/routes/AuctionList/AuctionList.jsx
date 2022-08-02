@@ -166,12 +166,14 @@ function AuctionList({
         setTo={setTo}
       />
 
-      <AddAuctionModal
-        closeHandler={closeModal}
-        showModal={showAddAuctionModal}
-        addAuctionHandler={addNewAuction}
-        userId={jwtDecode(localStorage.getItem("token")).uid}
-      />
+      {isLoggedIn && (
+        <AddAuctionModal
+          closeHandler={closeModal}
+          showModal={showAddAuctionModal}
+          addAuctionHandler={addNewAuction}
+          userId={jwtDecode(localStorage.getItem("token")).uid}
+        />
+      )}
 
       <div className={styles["button-group"]}>
         {isLoggedIn && (
