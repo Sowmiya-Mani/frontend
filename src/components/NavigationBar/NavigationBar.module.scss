@@ -20,6 +20,13 @@
   margin-right: 10px;
 }
 
+.nav-buttons {
+  width: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .dropdown-item {
   display: flex;
   flex-direction: row;

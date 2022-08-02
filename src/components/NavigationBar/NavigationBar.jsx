@@ -122,12 +122,12 @@ function NavigationBar({
                 </Dropdown.Item>
               </DropdownButton>
             ) : (
-              <>
+              <div className={styles["nav-buttons"]}>
                 <Nav.Link onClick={() => navigate("/login")}>Login</Nav.Link>
                 <Nav.Link onClick={() => navigate("/register")}>
                   Sign Up
                 </Nav.Link>
-              </>
+              </div>
             )}
           </Nav>
         </Container>
