@@ -269,7 +269,7 @@ function AddAuctionModal({
         </Modal.Body>
         <Modal.Footer className={styles.footer}>
           <Button value="Close" color="slateblue" onClick={onClose} />
-          <Button value="Save changes" onClick={onSubmit} disabled={loading} />
+          <Button value="Post auction" onClick={onSubmit} disabled={loading} />
         </Modal.Footer>
       </Modal>
     </>
