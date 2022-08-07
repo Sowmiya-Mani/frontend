@@ -162,6 +162,7 @@ function EditProfileModal({ userData, showModal, closeHandler }) {
               onChange={onChange}
             ></input>
             <Button
+              disabled={userData.profile_picture?.length === 0}
               value="Remove photo"
               onClick={removePhoto}
               loading={removing}
