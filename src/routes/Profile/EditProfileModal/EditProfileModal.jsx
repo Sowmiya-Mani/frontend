@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Modal, ProgressBar } from "react-bootstrap";
 import Button from "../../../components/Button";
 import PropTypes from "prop-types";
@@ -76,8 +76,11 @@ function EditProfileModal({ userData, showModal, closeHandler }) {
       return;
     }
     setUpdatedUserData({ ...updatedUserData, [e.target.name]: e.target.value });
-    checkChanges();
   };
+
+  useEffect(() => {
+    checkChanges();
+  }, [updatedUserData]);
 
   const removePhoto = (e) => {
     e.preventDefault();
@@ -95,6 +98,7 @@ function EditProfileModal({ userData, showModal, closeHandler }) {
   };
 
   const checkChanges = () => {
+    validateData();
     const keys = Object.keys(updatedUserData);
 
     for (let key of keys) {
@@ -107,16 +111,27 @@ function EditProfileModal({ userData, showModal, closeHandler }) {
     setChanged(false);
   };
 
+  const validateData = () => {
+    const keys = Object.keys(updatedUserData);
+    const validatedData = {};
+
+    for (let key of keys) {
+      if (updatedUserData[key].length === 0) {
+        validatedData[key] = userData[key];
+      } else {
+        validatedData[key] = updatedUserData[key];
+      }
+    }
+
+    setUpdatedUserData(validatedData);
+  };
+
   const getInitials = () => {
     if (userData.first_name?.length && userData.last_name?.length)
       return (
         userData.first_name.substring(0, 1) + userData.last_name.substring(0, 1)
       ).toUpperCase();
     else return "User";
-  };
-
-  const onSubmit = () => {
-    console.log("Submitted");
   };
 
   return (
@@ -170,7 +185,7 @@ function EditProfileModal({ userData, showModal, closeHandler }) {
           </div>
         </div>
 
-        <form onSubmit={onSubmit} className={styles["edit-profile-form"]}>
+        <form className={styles["edit-profile-form"]}>
           <input
             onChange={onChange}
             className={styles.input}
