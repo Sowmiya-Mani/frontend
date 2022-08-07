@@ -107,6 +107,14 @@ function EditProfileModal({ userData, showModal, closeHandler }) {
     setChanged(false);
   };
 
+  const getInitials = () => {
+    if (userData.first_name?.length && userData.last_name?.length)
+      return (
+        userData.first_name.substring(0, 1) + userData.last_name.substring(0, 1)
+      ).toUpperCase();
+    else return "User";
+  };
+
   const onSubmit = () => {
     console.log("Submitted");
   };
@@ -121,7 +129,11 @@ function EditProfileModal({ userData, showModal, closeHandler }) {
         <div
           className={styles["profile-pic"]}
           style={{ backgroundImage: 'url("' + userData.profile_picture + '")' }}
-        ></div>
+        >
+          {userData.profile_picture.length === 0 && (
+            <div className={styles["initials"]}>{getInitials()}</div>
+          )}
+        </div>
 
         {loading && updatedUserData.profile_picture && (
           <div className={styles.progress}>

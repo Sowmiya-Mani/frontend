@@ -53,7 +53,6 @@ function Profile() {
       setIsLoggedIn(true);
 
       const decoded_token = jwt_decode(localStorage.getItem("token"));
-      console.log(decoded_token);
       if (decoded_token.uid === id) {
         setIsOwnProfile(true);
       }
