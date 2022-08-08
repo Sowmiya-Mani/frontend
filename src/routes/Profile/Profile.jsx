@@ -6,6 +6,7 @@ import EditProfileModal from "./EditProfileModal";
 import EditProfileButton from "./EditProfileButton";
 import { Spinner } from "react-bootstrap";
 import "./../../App.css";
+import { useLocation } from "react-router-dom";
 import useIsLoggedIn from "../../hooks/useIsLoggedIn";
 import useWindowDimensions from "../../hooks/useWindowDimensions";
 import jwt_decode from "jwt-decode";
@@ -24,6 +25,7 @@ function Profile() {
   const [isFetchingUserBids, setIsFetchingUserBids] = useState(true);
   const [isFetchingWonUserAuctions, setIsFetchingWonUserAuctions] =
     useState(true);
+  const location = useLocation();
 
   const [data, setData] = useState({
     username: "",
@@ -51,7 +53,6 @@ function Profile() {
       setIsLoggedIn(true);
 
       const decoded_token = jwt_decode(localStorage.getItem("token"));
-      console.log(decoded_token);
       if (decoded_token.uid === id) {
         setIsOwnProfile(true);
       }
@@ -101,7 +102,7 @@ function Profile() {
         setIsFetchingWonUserAuctions(false);
         console.log(err);
       });
-  }, []);
+  }, [location]);
 
   return (
     <div>

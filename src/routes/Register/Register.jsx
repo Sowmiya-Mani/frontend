@@ -45,8 +45,10 @@ function Register() {
       .register(formData)
       .then((response) => {
         console.log(response);
+        localStorage.setItem("token", response.data.token);
         setIsLoading(false);
         navigate("/");
+        window.location.reload();
       })
       .catch((err) => {
         setErrors([err.response.data.error]);
