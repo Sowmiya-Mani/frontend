@@ -25,4 +25,10 @@ export default {
   getUsersWonAuctions(userId) {
     return Api.get(`${baseURL}/won-auctions/` + userId).then((json) => json);
   },
+  getAverageRatingByUserId(userId) {
+    return Api.get(`${baseURL}/rating/` + userId).then((json) => json);
+  },
+  postRating(userId) {
+    return Api.post(`${baseURL}/rating/` + userId).then((json) => json);
+  },
 };

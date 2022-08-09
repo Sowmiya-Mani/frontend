@@ -25,6 +25,7 @@ function Profile() {
   const [isFetchingUserBids, setIsFetchingUserBids] = useState(true);
   const [isFetchingWonUserAuctions, setIsFetchingWonUserAuctions] =
     useState(true);
+  const [isFetchingAverageRating, setIsFetchingAverageRating] = useState(true);
   const location = useLocation();
 
   const [data, setData] = useState({
@@ -36,6 +37,7 @@ function Profile() {
   const [userWonAuctions, setUserWonAuctions] = useState([]);
   const [userAuctions, setUserAuctions] = useState([]);
   const [userBids, setUserBids] = useState([]);
+  const [avgRating, setAvgRating] = useState(0);
   const { width } = useWindowDimensions();
 
   const toggleModal = () => {
@@ -102,6 +104,18 @@ function Profile() {
         setIsFetchingWonUserAuctions(false);
         console.log(err);
       });
+
+    setIsFetchingAverageRating(true);
+    usersService
+      .getAverageRatingByUserId(id)
+      .then((res) => {
+        setAvgRating(res.data.averageRating[0].avgRating);
+        setIsFetchingAverageRating(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        setIsFetchingAverageRating(false);
+      });
   }, [location]);
 
   return (
@@ -166,6 +180,12 @@ function Profile() {
               </strong>
             </div>
             <div className={styles.bio}>{data.bio}</div>
+            {!isFetchingAverageRating && (
+              <div className={styles["avg-rating"]}>
+                <strong>Average seller rating:</strong>{" "}
+                {parseFloat(avgRating).toFixed(2)}/5
+              </div>
+            )}
           </div>
         </div>
       )}
