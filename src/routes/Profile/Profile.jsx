@@ -109,7 +109,12 @@ function Profile() {
     usersService
       .getAverageRatingByUserId(id)
       .then((res) => {
-        setAvgRating(res.data.averageRating[0].avgRating);
+        if (res.data.averageRating.length > 0) {
+          setAvgRating(res.data.averageRating[0].avgRating);
+        } else {
+          setAvgRating(-1);
+        }
+
         setIsFetchingAverageRating(false);
       })
       .catch((err) => {
@@ -180,7 +185,7 @@ function Profile() {
               </strong>
             </div>
             <div className={styles.bio}>{data.bio}</div>
-            {!isFetchingAverageRating && (
+            {!isFetchingAverageRating && avgRating > 0 && (
               <div className={styles["avg-rating"]}>
                 <strong>Average seller rating:</strong>{" "}
                 {parseFloat(avgRating).toFixed(2)}/5
