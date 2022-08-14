@@ -28,7 +28,17 @@ export default {
   getAverageRatingByUserId(userId) {
     return Api.get(`${baseURL}/rating/` + userId).then((json) => json);
   },
-  postRating(userId) {
-    return Api.post(`${baseURL}/rating/` + userId).then((json) => json);
+  postRating(userId, rating) {
+    return Api.post(`${baseURL}/rating/` + userId, rating).then((json) => json);
+  },
+  canUserLeaveRating(sellerId) {
+    return Api.get(`${baseURL}/canLeaveRating/` + sellerId).then(
+      (json) => json
+    );
+  },
+  getUsersSellerRating(sellerId) {
+    return Api.get(`${baseURL}/usersSellerRating/` + sellerId).then(
+      (json) => json
+    );
   },
 };

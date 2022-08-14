@@ -13,10 +13,15 @@ import jwt_decode from "jwt-decode";
 import AuctionCards from "./../AuctionList/AuctionCards";
 import BidCard from "./BidCard";
 import Tab from "./Tab";
+import RateSellerButton from "./RateSellerButton";
+import RateSellerModal from "./RateSellerModal";
+import ErrorAlert from "../../components/Alerts/ErrorAlert";
+import SuccessAlert from "../../components/Alerts/SuccessAlert";
 import styles from "./Profile.module.scss";
 
 function Profile() {
   const { id } = useParams();
+  const [showRateUserModal, setShowRateUserModal] = useState(false);
   const [showEditProfileModal, setShowEditProfileModal] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isOwnProfile, setIsOwnProfile] = useState(false);
@@ -38,16 +43,39 @@ function Profile() {
   const [userAuctions, setUserAuctions] = useState([]);
   const [userBids, setUserBids] = useState([]);
   const [avgRating, setAvgRating] = useState(0);
+  const [error, setError] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+  const [canLeaveRating, setCanLeaveRating] = useState("");
   const { width } = useWindowDimensions();
 
   const toggleModal = () => {
     setShowEditProfileModal((prev) => !prev);
   };
 
+  const toggleRateUserModal = () => {
+    setShowRateUserModal((prev) => !prev);
+  };
+
   const getInitials = () => {
     return (
       data.first_name.substring(0, 1) + data.last_name.substring(0, 1)
     ).toUpperCase();
+  };
+
+  const postRating = (rating) => {
+    if (rating > 0) {
+      usersService
+        .postRating(id, { rating: rating })
+        .then(() => {
+          setSuccessMessage("Successfully posted rating for this seller.");
+          setShowRateUserModal(false);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      setError("You have to select a rating.");
+    }
   };
 
   useEffect(() => {
@@ -57,6 +85,8 @@ function Profile() {
       const decoded_token = jwt_decode(localStorage.getItem("token"));
       if (decoded_token.uid === id) {
         setIsOwnProfile(true);
+      } else {
+        setIsOwnProfile(false);
       }
     }
 
@@ -121,10 +151,25 @@ function Profile() {
         console.log(err);
         setIsFetchingAverageRating(false);
       });
+
+    usersService.canUserLeaveRating(id).then((res) => {
+      console.log(res);
+      setCanLeaveRating(res.data.canLeaveRating);
+    });
   }, [location]);
 
   return (
     <div>
+      {error.length > 0 && <ErrorAlert message={error} setMessage={setError} />}
+      {successMessage.length > 0 && (
+        <SuccessAlert message={successMessage} setMessage={setSuccessMessage} />
+      )}
+      <RateSellerModal
+        showModal={showRateUserModal}
+        closeHandler={toggleRateUserModal}
+        postRating={postRating}
+        sellerId={id}
+      />
       <EditProfileModal
         userData={data}
         closeHandler={toggleModal}
@@ -154,6 +199,13 @@ function Profile() {
                     screenWidth={width}
                   />
                 </div>
+              )}
+
+              {!isOwnProfile && canLeaveRating && (
+                <RateSellerButton
+                  screenWidth={width}
+                  onClickHandler={toggleRateUserModal}
+                />
               )}
             </div>
 
