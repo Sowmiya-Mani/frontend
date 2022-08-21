@@ -13,10 +13,15 @@ import jwt_decode from "jwt-decode";
 import AuctionCards from "./../AuctionList/AuctionCards";
 import BidCard from "./BidCard";
 import Tab from "./Tab";
+import RateSellerButton from "./RateSellerButton";
+import RateSellerModal from "./RateSellerModal";
+import ErrorAlert from "../../components/Alerts/ErrorAlert";
+import SuccessAlert from "../../components/Alerts/SuccessAlert";
 import styles from "./Profile.module.scss";
 
 function Profile() {
   const { id } = useParams();
+  const [showRateUserModal, setShowRateUserModal] = useState(false);
   const [showEditProfileModal, setShowEditProfileModal] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isOwnProfile, setIsOwnProfile] = useState(false);
@@ -25,6 +30,7 @@ function Profile() {
   const [isFetchingUserBids, setIsFetchingUserBids] = useState(true);
   const [isFetchingWonUserAuctions, setIsFetchingWonUserAuctions] =
     useState(true);
+  const [isFetchingAverageRating, setIsFetchingAverageRating] = useState(true);
   const location = useLocation();
 
   const [data, setData] = useState({
@@ -36,16 +42,40 @@ function Profile() {
   const [userWonAuctions, setUserWonAuctions] = useState([]);
   const [userAuctions, setUserAuctions] = useState([]);
   const [userBids, setUserBids] = useState([]);
+  const [avgRating, setAvgRating] = useState(0);
+  const [error, setError] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+  const [canLeaveRating, setCanLeaveRating] = useState("");
   const { width } = useWindowDimensions();
 
   const toggleModal = () => {
     setShowEditProfileModal((prev) => !prev);
   };
 
+  const toggleRateUserModal = () => {
+    setShowRateUserModal((prev) => !prev);
+  };
+
   const getInitials = () => {
     return (
       data.first_name.substring(0, 1) + data.last_name.substring(0, 1)
     ).toUpperCase();
+  };
+
+  const postRating = (rating) => {
+    if (rating > 0) {
+      usersService
+        .postRating(id, { rating: rating })
+        .then(() => {
+          setSuccessMessage("Successfully posted rating for this seller.");
+          setShowRateUserModal(false);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      setError("You have to select a rating.");
+    }
   };
 
   useEffect(() => {
@@ -55,6 +85,8 @@ function Profile() {
       const decoded_token = jwt_decode(localStorage.getItem("token"));
       if (decoded_token.uid === id) {
         setIsOwnProfile(true);
+      } else {
+        setIsOwnProfile(false);
       }
     }
 
@@ -102,10 +134,42 @@ function Profile() {
         setIsFetchingWonUserAuctions(false);
         console.log(err);
       });
+
+    setIsFetchingAverageRating(true);
+    usersService
+      .getAverageRatingByUserId(id)
+      .then((res) => {
+        if (res.data.averageRating.length > 0) {
+          setAvgRating(res.data.averageRating[0].avgRating);
+        } else {
+          setAvgRating(-1);
+        }
+
+        setIsFetchingAverageRating(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        setIsFetchingAverageRating(false);
+      });
+
+    usersService.canUserLeaveRating(id).then((res) => {
+      console.log(res);
+      setCanLeaveRating(res.data.canLeaveRating);
+    });
   }, [location]);
 
   return (
     <div>
+      {error.length > 0 && <ErrorAlert message={error} setMessage={setError} />}
+      {successMessage.length > 0 && (
+        <SuccessAlert message={successMessage} setMessage={setSuccessMessage} />
+      )}
+      <RateSellerModal
+        showModal={showRateUserModal}
+        closeHandler={toggleRateUserModal}
+        postRating={postRating}
+        sellerId={id}
+      />
       <EditProfileModal
         userData={data}
         closeHandler={toggleModal}
@@ -135,6 +199,13 @@ function Profile() {
                     screenWidth={width}
                   />
                 </div>
+              )}
+
+              {!isOwnProfile && canLeaveRating && (
+                <RateSellerButton
+                  screenWidth={width}
+                  onClickHandler={toggleRateUserModal}
+                />
               )}
             </div>
 
@@ -166,6 +237,12 @@ function Profile() {
               </strong>
             </div>
             <div className={styles.bio}>{data.bio}</div>
+            {!isFetchingAverageRating && avgRating > 0 && (
+              <div className={styles["avg-rating"]}>
+                <strong>Average seller rating:</strong>{" "}
+                {parseFloat(avgRating).toFixed(2)}/5
+              </div>
+            )}
           </div>
         </div>
       )}

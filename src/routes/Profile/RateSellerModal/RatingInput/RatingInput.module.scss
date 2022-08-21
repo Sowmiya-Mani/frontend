@@ -1,0 +1,11 @@
+.stars {
+  display: flex;
+  justify-content: center;
+  font-size: 40px;
+  color: var(--bs-primary);
+}
+
+.star {
+  cursor: pointer;
+  margin: 2px;
+}
