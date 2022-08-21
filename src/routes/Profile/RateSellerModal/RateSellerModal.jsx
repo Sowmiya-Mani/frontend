@@ -42,13 +42,16 @@ function RateSellerModal({ showModal, closeHandler, postRating, sellerId }) {
           </div>
         )}
         {!alreadyRated && (
-          <RatingInput
-            max={5}
-            rating={rating}
-            setRating={setRating}
-            hover={hover}
-            setHover={setHover}
-          />
+          <>
+            Select your rating:
+            <RatingInput
+              max={5}
+              rating={rating}
+              setRating={setRating}
+              hover={hover}
+              setHover={setHover}
+            />
+          </>
         )}
       </Modal.Body>
 
