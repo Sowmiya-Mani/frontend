@@ -114,6 +114,13 @@ function NavigationBar({
                   profile
                 </Dropdown.Item>
                 <Dropdown.Item
+                  onClick={() => navigate("/auctions")}
+                  className={styles["dropdown-item"]}
+                >
+                  <i className={`bi bi-card-list ${styles.icon}`}></i>
+                  Go to Auctions
+                </Dropdown.Item>
+                <Dropdown.Item
                   onClick={logout}
                   className={styles["dropdown-item"]}
                 >
