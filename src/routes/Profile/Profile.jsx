@@ -290,11 +290,27 @@ function Profile() {
             </div>
           ))}
 
-        {userAuctions.length > 0 &&
+        {userWonAuctions.length > 0 &&
           selectedTab === 2 &&
           userWonAuctions.map((auction, idx) => (
             <AuctionCards auction={auction} key={idx} />
           ))}
+
+        {selectedTab === 0 && userAuctions.length === 0 && (
+          <div style={{ textAlign: "center" }}>
+            This user has not listed any auctions yet.
+          </div>
+        )}
+        {selectedTab === 1 && userBids.length === 0 && (
+          <div style={{ textAlign: "center" }}>
+            This user has not made any bids yet.
+          </div>
+        )}
+        {selectedTab === 2 && userWonAuctions.length === 0 && (
+          <div style={{ textAlign: "center" }}>
+            This user has not won an auction yet.
+          </div>
+        )}
       </div>
     </div>
   );
